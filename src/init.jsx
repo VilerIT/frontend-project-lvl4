@@ -3,9 +3,17 @@
 import React from 'react';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from 'react-router-dom';
 
-import App from './components/App.jsx';
 import resources from './locales/index.js';
+import AppNavbar from './components/AppNavbar.jsx';
+import Home from './components/Home.jsx';
+import Login from './components/Login.jsx';
+import NotFound from './components/NotFound.jsx';
 
 export default () => {
   const i18nInstance = i18n.createInstance();
@@ -13,9 +21,26 @@ export default () => {
   i18nInstance
     .use(initReactI18next)
     .init({
-      lng: 'en',
+      lng: 'ru',
       resources,
     });
 
-  return <App />;
+  return (
+    <Router>
+      <div className="d-flex flex-column h-100">
+        <AppNavbar />
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="*">
+            <NotFound />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+  );
 };

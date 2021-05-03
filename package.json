@@ -33,6 +33,7 @@
     "fastify-secure-session": "^2.3.1",
     "fastify-socket.io": "^2.0.0",
     "fastify-static": "^4.0.1",
+    "formik": "^2.2.6",
     "http-errors": "^1.8.0",
     "i18next": "^20.2.2",
     "jquery": "^3.6.0",
@@ -45,7 +46,9 @@
     "react-bootstrap": "^1.5.2",
     "react-dom": "^17.0.2",
     "react-i18next": "^11.8.15",
-    "regenerator-runtime": "^0.13.7"
+    "react-router-dom": "^5.2.0",
+    "regenerator-runtime": "^0.13.7",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.16",
