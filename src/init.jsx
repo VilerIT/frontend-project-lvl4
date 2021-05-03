@@ -13,6 +13,7 @@ import resources from './locales/index.js';
 import AppNavbar from './components/AppNavbar.jsx';
 import Home from './components/Home.jsx';
 import Login from './components/Login.jsx';
+import SignUp from './components/SignUp.jsx';
 import NotFound from './components/NotFound.jsx';
 
 export default () => {
@@ -35,6 +36,9 @@ export default () => {
           </Route>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/signup">
+            <SignUp />
           </Route>
           <Route path="*">
             <NotFound />
