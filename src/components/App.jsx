@@ -15,7 +15,7 @@ const App = ({ t, i18n }) => {
           Label:
           {t('labels.username')}
         </p>
-        <button type="button" onClick={handleClick}>Change language</button>
+        <button type="button" className="btn btn-primary" onClick={handleClick}>Change language</button>
       </div>
     </div>
   );
