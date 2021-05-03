@@ -1,12 +1,24 @@
 import React from 'react';
+import { withTranslation } from 'react-i18next';
 
-const App = () => (
-  <div className="card text-center">
-    <div className="card-body">
-      <h5 className="card-title">Chat (Slack)</h5>
-      <p className="card-text">Coming up soon...</p>
+const App = ({ t, i18n }) => {
+  const handleClick = () => {
+    const newLang = (i18n.language === 'en' ? 'ru' : 'en');
+    i18n.changeLanguage(newLang);
+  };
+
+  return (
+    <div className="card text-center">
+      <div className="card-body">
+        <h5 className="card-title">Chat (Slack)</h5>
+        <p className="card-text">
+          Label:
+          {t('labels.username')}
+        </p>
+        <button type="button" onClick={handleClick}>Change language</button>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
-export default App;
+export default withTranslation()(App);
