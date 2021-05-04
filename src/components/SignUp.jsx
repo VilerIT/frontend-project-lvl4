@@ -38,13 +38,13 @@ const SignUp = () => {
           <Form.Label htmlFor="username">{t('labels.username')}</Form.Label>
           <Form.Control
             name="username"
-            className={formik.errors.username ? 'is-invalid' : ''}
             id="username"
             autoComplete="username"
             required
             placeholder={t('placeholders.usernameRange')}
             onChange={formik.handleChange}
             value={formik.values.username}
+            isInvalid={formik.errors.username}
           />
           {formik.errors.username
             && <Form.Control.Feedback type="invalid">{t(formik.errors.username)}</Form.Control.Feedback>}
@@ -53,7 +53,6 @@ const SignUp = () => {
           <Form.Label htmlFor="password">{t('labels.password')}</Form.Label>
           <Form.Control
             name="password"
-            className={formik.errors.password ? 'is-invalid' : ''}
             id="password"
             autoComplete="new-password"
             type="password"
@@ -61,6 +60,7 @@ const SignUp = () => {
             placeholder={t('placeholders.noShorterThan')}
             onChange={formik.handleChange}
             value={formik.values.password}
+            isInvalid={formik.errors.password}
           />
           {formik.errors.password
             && <Form.Control.Feedback type="invalid">{t(formik.errors.password)}</Form.Control.Feedback>}
@@ -69,7 +69,6 @@ const SignUp = () => {
           <Form.Label htmlFor="confirmPassword">{t('labels.confirmPassword')}</Form.Label>
           <Form.Control
             name="confirmPassword"
-            className={formik.errors.confirmPassword ? 'is-invalid' : ''}
             id="confirmPassword"
             autoComplete="new-password"
             type="password"
@@ -77,6 +76,7 @@ const SignUp = () => {
             placeholder={t('placeholders.passwordsMustMatch')}
             onChange={formik.handleChange}
             value={formik.values.confirmPassword}
+            isInvalid={formik.errors.confirmPassword}
           />
           {formik.errors.confirmPassword
             && <Form.Control.Feedback type="invalid">{t(formik.errors.confirmPassword)}</Form.Control.Feedback>}
