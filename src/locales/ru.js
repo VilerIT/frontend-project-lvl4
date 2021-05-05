@@ -9,10 +9,12 @@ export default {
     buttons: {
       signIn: 'Войти',
       signUp: 'Зарегистрироваться',
+      logIn: 'Войти',
+      logOut: 'Выйти',
       send: 'Отправить',
     },
     errors: {
-      incorrectUserData: 'Неверные имя пользователя или пароль',
+      authFailed: 'Неверные имя пользователя или пароль',
       passwordTooShort: 'Не менее 6 символов',
       usernameNotInRange: 'От 3 до 20 символов',
       passwordsDontMatch: 'Пароли должны совпадать',

@@ -1,21 +1,61 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
+import axios from 'axios';
 
+import useAuth from '../hooks/index.js';
+import routes from '../routes.js';
 import FormContainer from './FormContainer.jsx';
 
 const Login = () => {
+  const auth = useAuth();
+  const [authFailed, setAuthFailed] = useState(false);
+
+  const { t } = useTranslation();
+
+  const usernameRef = useRef();
+  const history = useHistory();
+
+  useEffect(() => {
+    usernameRef.current.focus();
+  }, []);
+
+  const handleSubmit = async (values) => {
+    const url = routes.login();
+
+    setAuthFailed(false);
+
+    try {
+      const res = await axios.post(url, { ...values });
+
+      localStorage.setItem('userId', JSON.stringify(res.data));
+      auth.logIn();
+
+      history.push('/');
+    } catch (e) {
+      if (e.isAxiosError && e.response.status === 401) {
+        setAuthFailed(true);
+        usernameRef.current.select();
+        return;
+      }
+
+      throw e;
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
-    onSubmit: () => {},
+    onSubmit: handleSubmit,
   });
 
-  const { t } = useTranslation();
+  if (auth.loggedIn) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <FormContainer>
@@ -30,6 +70,8 @@ const Login = () => {
             type="text"
             onChange={formik.handleChange}
             value={formik.values.username}
+            ref={usernameRef}
+            isInvalid={authFailed}
           />
         </Form.Group>
         <Form.Group>
@@ -42,7 +84,10 @@ const Login = () => {
             type="password"
             onChange={formik.handleChange}
             value={formik.values.password}
+            isInvalid={authFailed}
           />
+          {authFailed
+            && <Form.Control.Feedback type="invalid">{t('errors.authFailed')}</Form.Control.Feedback>}
         </Form.Group>
         <Button
           type="submit"

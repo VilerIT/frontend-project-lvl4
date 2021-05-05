@@ -9,10 +9,12 @@ export default {
     buttons: {
       signIn: 'Sign in',
       signUp: 'Sign up',
+      logIn: 'Log in',
+      logOut: 'Log out',
       send: 'Send',
     },
     errors: {
-      incorrectUserData: 'Incorrect username or password',
+      authFailed: 'Incorrect username or password',
       passwordTooShort: 'At least 6 characters',
       usernameNotInRange: 'From 3 to 20 characters',
       passwordsDontMatch: 'Passwords must match',

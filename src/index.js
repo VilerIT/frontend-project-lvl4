@@ -12,6 +12,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 const mountNode = document.getElementById('chat');
 
-const application = init();
+const vdom = init();
 
-ReactDOM.render(application, mountNode);
+ReactDOM.render(vdom, mountNode);

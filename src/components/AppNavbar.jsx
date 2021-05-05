@@ -1,15 +1,28 @@
 import React from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
-const AppNavbar = ({ t }) => (
+import useAuth from '../hooks/index.js';
+
+const AuthButton = () => {
+  const auth = useAuth();
+  const { t } = useTranslation();
+
+  return (
+    auth.loggedIn
+      ? <Button onClick={auth.logOut}>{t('buttons.logOut')}</Button>
+      : <Button as={Link} to="/login">{t('buttons.logIn')}</Button>
+  );
+};
+
+const AppNavbar = () => (
   <Navbar bg="light" expand="lg">
     <Link to="/" className="mr-auto navbar-brand">VilerChat</Link>
     <Nav>
-      <Link to="/login" className="nav-link">{t('buttons.signIn')}</Link>
+      <AuthButton />
     </Nav>
   </Navbar>
 );
 
-export default withTranslation()(AppNavbar);
+export default AppNavbar;

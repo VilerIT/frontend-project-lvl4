@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
@@ -31,6 +31,12 @@ const SignUp = () => {
 
   const { t } = useTranslation();
 
+  const usernameRef = useRef();
+
+  useEffect(() => {
+    usernameRef.current.focus();
+  }, []);
+
   return (
     <FormContainer>
       <Form className="p-3" onSubmit={formik.handleSubmit}>
@@ -45,6 +51,7 @@ const SignUp = () => {
             onChange={formik.handleChange}
             value={formik.values.username}
             isInvalid={formik.errors.username}
+            ref={usernameRef}
           />
           {formik.errors.username
             && <Form.Control.Feedback type="invalid">{t(formik.errors.username)}</Form.Control.Feedback>}
