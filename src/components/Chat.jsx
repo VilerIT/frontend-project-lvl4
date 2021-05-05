@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Card } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import routes from '../routes.js';
@@ -17,7 +17,6 @@ const getAuthorizationHeader = () => {
 };
 
 const Home = () => {
-  const channels = useSelector((state) => state.channelsInfo.channels);
   const dispatch = useDispatch();
 
   useEffect(async () => {
@@ -27,8 +26,6 @@ const Home = () => {
 
     dispatch(setInitialState(res.data));
   }, []);
-
-  console.log(channels);
 
   return (
     <Card className="text-center">
