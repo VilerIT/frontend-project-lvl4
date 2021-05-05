@@ -9,7 +9,7 @@ import {
 import authContext from '../contexts/index.js';
 import useAuth from '../hooks/index.js';
 import AppNavbar from './AppNavbar.jsx';
-import Home from './Home.jsx';
+import Chat from './Chat.jsx';
 import Login from './Login.jsx';
 import SignUp from './SignUp.jsx';
 import NotFound from './NotFound.jsx';
@@ -53,7 +53,7 @@ const App = () => (
         <AppNavbar />
         <Switch>
           <PrivateRoute exact path="/">
-            <Home />
+            <Chat />
           </PrivateRoute>
           <Route path="/login">
             <Login />
