@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
@@ -54,7 +54,7 @@ const Login = () => {
   });
 
   if (auth.loggedIn) {
-    return <Redirect to="/" />;
+    history.push('/');
   }
 
   return (

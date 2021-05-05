@@ -5,7 +5,6 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
 
 import authContext from '../contexts/index.js';
 import useAuth from '../hooks/index.js';
@@ -16,7 +15,9 @@ import SignUp from './SignUp.jsx';
 import NotFound from './NotFound.jsx';
 
 const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const userId = JSON.parse(localStorage.getItem('userId'));
+
+  const [loggedIn, setLoggedIn] = useState(userId && userId.token);
 
   const logIn = () => setLoggedIn(true);
   const logOut = () => {
