@@ -1,9 +1,44 @@
 import React from 'react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import {
+  Navbar,
+  Nav,
+  NavDropdown,
+  Button,
+} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import _ from 'lodash';
 
 import useAuth from '../hooks/index.js';
+
+const languages = ['en', 'ru'];
+
+const LanguageSwitcher = () => {
+  const { i18n } = useTranslation();
+
+  const handleSwitchLanguage = (lang) => () => {
+    i18n.changeLanguage(lang);
+  };
+
+  const renderLanguages = () => (
+    <>
+      {languages.map((lang) => (
+        <NavDropdown.Item
+          key={_.uniqueId()}
+          onClick={handleSwitchLanguage(lang)}
+        >
+          {lang}
+        </NavDropdown.Item>
+      ))}
+    </>
+  );
+
+  return (
+    <NavDropdown title={i18n.language}>
+      {renderLanguages()}
+    </NavDropdown>
+  );
+};
 
 const AuthButton = () => {
   const auth = useAuth();
@@ -17,8 +52,11 @@ const AuthButton = () => {
 };
 
 const AppNavbar = () => (
-  <Navbar bg="light" expand="lg">
-    <Link to="/" className="mr-auto navbar-brand">VilerChat</Link>
+  <Navbar bg="light">
+    <Navbar.Brand as={Link} to="/">VilerChat</Navbar.Brand>
+    <Nav className="mr-auto">
+      <LanguageSwitcher />
+    </Nav>
     <Nav>
       <AuthButton />
     </Nav>

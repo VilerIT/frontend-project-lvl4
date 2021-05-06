@@ -7,7 +7,6 @@ export default {
       username: 'Имя пользователя',
     },
     buttons: {
-      signIn: 'Войти',
       signUp: 'Зарегистрироваться',
       logIn: 'Войти',
       logOut: 'Выйти',
@@ -23,6 +22,12 @@ export default {
       noShorterThan: 'Не менее 6 символов',
       usernameRange: 'От 3 до 20 символов',
       passwordsMustMatch: 'Пароли должны совпадать',
+    },
+    texts: {
+      notFound: '404 Не найдено',
+      pageDoesNotExist: 'Упс! Данной страницы не существует.',
+      noAccount: 'Нет аккаунта?',
+      registration: 'Регистрация',
     },
   },
 };

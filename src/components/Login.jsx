@@ -94,13 +94,13 @@ const Login = () => {
           variant="outline-primary"
           className="w-100 mb-3"
         >
-          {t('buttons.signIn')}
+          {t('buttons.logIn')}
         </Button>
         <div className="text-center">
           <span>
-            Нет аккаунта?
+            {t('texts.noAccount')}
             &nbsp;
-            <Link to="/signup">Регистрация</Link>
+            <Link to="/signup">{t('texts.registration')}</Link>
           </span>
         </div>
       </Form>

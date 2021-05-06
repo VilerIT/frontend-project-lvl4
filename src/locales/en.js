@@ -7,7 +7,6 @@ export default {
       username: 'Username',
     },
     buttons: {
-      signIn: 'Sign in',
       signUp: 'Sign up',
       logIn: 'Log in',
       logOut: 'Log out',
@@ -23,6 +22,12 @@ export default {
       noShorterThan: 'At least 6 characters',
       usernameRange: 'From 3 to 20 characters',
       passwordsMustMatch: 'Passwords must match',
+    },
+    texts: {
+      notFound: '404 Not Found',
+      pageDoesNotExist: 'Oops! This page does not exist.',
+      noAccount: 'No account?',
+      registration: 'Sign up',
     },
   },
 };
