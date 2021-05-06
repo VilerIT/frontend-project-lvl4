@@ -54,7 +54,7 @@ const Login = () => {
   });
 
   if (auth.loggedIn) {
-    history.push('/');
+    history.replace('/');
   }
 
   return (

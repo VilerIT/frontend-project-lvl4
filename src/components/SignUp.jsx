@@ -41,7 +41,7 @@ const SignUp = () => {
   }, []);
 
   if (auth.loggedIn) {
-    history.push('/');
+    history.replace('/');
   }
 
   return (
