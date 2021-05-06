@@ -30,7 +30,14 @@ const RemovableChannel = ({
   t,
 }) => (
   <Dropdown as={ButtonGroup} className="d-flex mb-2">
-    <Button variant={buttonVariant} onClick={onClick}>{name}</Button>
+    <Nav.Link
+      as={Button}
+      variant={buttonVariant}
+      onClick={onClick}
+      className="text-left flex-grow-1"
+    >
+      {name}
+    </Nav.Link>
     <Dropdown.Toggle
       split
       variant={buttonVariant}

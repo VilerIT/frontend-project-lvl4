@@ -19,6 +19,7 @@ export default {
       passwordTooShort: 'Не менее 6 символов',
       usernameNotInRange: 'От 3 до 20 символов',
       passwordsDontMatch: 'Пароли должны совпадать',
+      emptyField: 'Заполните это поле',
     },
     placeholders: {
       noShorterThan: 'Не менее 6 символов',

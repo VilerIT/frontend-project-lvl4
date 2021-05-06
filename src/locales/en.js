@@ -19,6 +19,7 @@ export default {
       passwordTooShort: 'At least 6 characters',
       usernameNotInRange: 'From 3 to 20 characters',
       passwordsDontMatch: 'Passwords must match',
+      emptyField: 'Fill this field',
     },
     placeholders: {
       noShorterThan: 'At least 6 characters',
