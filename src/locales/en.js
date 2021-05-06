@@ -11,6 +11,8 @@ export default {
       logIn: 'Log in',
       logOut: 'Log out',
       send: 'Send',
+      remove: 'Remove',
+      rename: 'Rename',
     },
     errors: {
       authFailed: 'Incorrect username or password',
@@ -28,6 +30,7 @@ export default {
       pageDoesNotExist: 'Oops! This page does not exist.',
       noAccount: 'No account?',
       registration: 'Sign up',
+      channels: 'Channels',
     },
   },
 };

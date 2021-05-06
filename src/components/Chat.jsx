@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { Card } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
 import routes from '../routes.js';
 import { setInitialState } from '../slices/channelsInfoSlice.js';
+import Channels from './Channels.jsx';
 
 const getAuthorizationHeader = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));
@@ -28,12 +29,9 @@ const Home = () => {
   }, []);
 
   return (
-    <Card className="text-center">
-      <Card.Body>
-        <Card.Title>VilerChat</Card.Title>
-        <Card.Text>Coming up soon...</Card.Text>
-      </Card.Body>
-    </Card>
+    <Row className="flex-grow-1 h-75 pb-3">
+      <Channels />
+    </Row>
   );
 };
 

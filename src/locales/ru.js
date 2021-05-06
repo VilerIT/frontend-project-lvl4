@@ -11,6 +11,8 @@ export default {
       logIn: 'Войти',
       logOut: 'Выйти',
       send: 'Отправить',
+      remove: 'Удалить',
+      rename: 'Переименовать',
     },
     errors: {
       authFailed: 'Неверные имя пользователя или пароль',
@@ -28,6 +30,7 @@ export default {
       pageDoesNotExist: 'Упс! Данной страницы не существует.',
       noAccount: 'Нет аккаунта?',
       registration: 'Регистрация',
+      channels: 'Каналы',
     },
   },
 };
