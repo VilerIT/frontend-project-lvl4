@@ -12,10 +12,12 @@ import App from './components/App.jsx';
 export default () => {
   const i18nInstance = i18n.createInstance();
 
+  const lng = localStorage.getItem('lang') || 'ru';
+
   i18nInstance
     .use(initReactI18next)
     .init({
-      lng: 'ru',
+      lng,
       resources,
     });
 
