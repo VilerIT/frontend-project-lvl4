@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Row } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Row, Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
@@ -21,20 +21,24 @@ const getAuthorizationHeader = () => {
 const Home = () => {
   const dispatch = useDispatch();
 
+  const [contentLoaded, setContentLoaded] = useState(false);
+
   useEffect(async () => {
     const url = routes.data();
 
     const res = await axios.get(url, { headers: getAuthorizationHeader() });
 
     dispatch(setInitialState(res.data));
+
+    setContentLoaded(true);
   }, []);
 
-  return (
+  return contentLoaded ? (
     <Row className="flex-grow-1 h-75 pb-3">
       <Channels />
       <Messages />
     </Row>
-  );
+  ) : <Spinner animation="grow" variant="primary" />;
 };
 
 export default Home;
