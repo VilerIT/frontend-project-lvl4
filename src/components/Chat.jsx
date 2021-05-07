@@ -5,11 +5,14 @@ import axios from 'axios';
 
 import routes from '../routes.js';
 import { setInitialState } from '../slices/channelsInfoSlice.js';
+import useAuth from '../hooks/index.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 
+const getUserId = () => JSON.parse(localStorage.getItem('userId'));
+
 const getAuthorizationHeader = () => {
-  const userId = JSON.parse(localStorage.getItem('userId'));
+  const userId = getUserId();
 
   if (userId && userId.token) {
     return { Authorization: `Bearer ${userId.token}` };
@@ -18,27 +21,37 @@ const getAuthorizationHeader = () => {
   return {};
 };
 
-const Home = () => {
+const Chat = ({ socket }) => {
+  const auth = useAuth();
   const dispatch = useDispatch();
 
   const [contentLoaded, setContentLoaded] = useState(false);
 
   useEffect(async () => {
     const url = routes.data();
+    try {
+      const res = await axios.get(url, { headers: getAuthorizationHeader() });
 
-    const res = await axios.get(url, { headers: getAuthorizationHeader() });
+      dispatch(setInitialState(res.data));
 
-    dispatch(setInitialState(res.data));
+      socket.auth = { token: getUserId().token };
 
-    setContentLoaded(true);
+      setContentLoaded(true);
+    } catch (e) {
+      if (e.isAxiosError && e.response.status === 401) {
+        auth.logOut();
+      }
+
+      throw e;
+    }
   }, []);
 
   return contentLoaded ? (
     <Row className="flex-grow-1 h-75 pb-3">
       <Channels />
-      <Messages />
+      <Messages socket={socket} />
     </Row>
   ) : <Spinner animation="grow" variant="primary" />;
 };
 
-export default Home;
+export default Chat;

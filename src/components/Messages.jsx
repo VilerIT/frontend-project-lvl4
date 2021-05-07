@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Col,
@@ -10,18 +10,20 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
+const getUsername = () => JSON.parse(localStorage.getItem('userId')).username;
+
 const messageSchema = yup.object().shape({
   body: yup.string().required('errors.emptyField'),
 });
 
 const MessagesBox = () => {
-  const { messages } = useSelector((state) => state.messagesInfo);
   const { currentChannelId } = useSelector((state) => state.channelsInfo);
+  const { messages } = useSelector((state) => state.messagesInfo);
 
   return (
     <div id="messages-box" className="chat-messages overflow-auto mb-3">
       {messages
-        .filter(({ channelId }) => (parseInt(channelId, 10) !== currentChannelId))
+        .filter(({ channelId }) => (parseInt(channelId, 10) === currentChannelId))
         .map(({ id, body, username }) => (
           <div key={id} className="text-break">
             <b>{username}</b>
@@ -33,13 +35,29 @@ const MessagesBox = () => {
   );
 };
 
-const NewMessageForm = () => {
+const NewMessageForm = ({ socket }) => {
+  const { currentChannelId } = useSelector((state) => state.channelsInfo);
+  const [state, setState] = useState('filling');
+  const inputRef = useRef();
+
   const formik = useFormik({
     initialValues: {
       body: '',
     },
     validationSchema: messageSchema,
-    onSubmit: () => {},
+    onSubmit: ({ body }) => {
+      setState('pending');
+
+      const message = { body, channelId: currentChannelId, username: getUsername() };
+      socket.emit('newMessage', message, ({ status }) => {
+        if (status === 'ok') {
+          setState('filling');
+
+          formik.resetForm();
+          inputRef.current.focus();
+        }
+      });
+    },
   });
 
   const { t } = useTranslation();
@@ -54,9 +72,11 @@ const NewMessageForm = () => {
             onChange={formik.handleChange}
             value={formik.values.body}
             isInvalid={formik.errors.body}
+            readOnly={state === 'pending'}
+            ref={inputRef}
           />
           <InputGroup.Append>
-            <Button type="submit">{t('buttons.send')}</Button>
+            <Button type="submit" disabled={state === 'pending'}>{t('buttons.send')}</Button>
           </InputGroup.Append>
           {formik.errors.body
             && <Form.Control.Feedback type="invalid">{t(formik.errors.body)}</Form.Control.Feedback>}
@@ -66,11 +86,11 @@ const NewMessageForm = () => {
   );
 };
 
-const Messages = () => (
+const Messages = ({ socket }) => (
   <Col className="h-100">
     <div className="d-flex flex-column h-100">
       <MessagesBox />
-      <NewMessageForm />
+      <NewMessageForm socket={socket} />
     </div>
   </Col>
 );

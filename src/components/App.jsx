@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import authContext from '../contexts/index.js';
 import useAuth from '../hooks/index.js';
@@ -13,6 +14,7 @@ import Chat from './Chat.jsx';
 import Login from './Login.jsx';
 import SignUp from './SignUp.jsx';
 import NotFound from './NotFound.jsx';
+import { addMessage } from '../slices/messagesInfoSlice.js';
 
 const AuthProvider = ({ children }) => {
   const userId = JSON.parse(localStorage.getItem('userId'));
@@ -46,28 +48,38 @@ const PrivateRoute = ({ children, path, exact }) => {
   );
 };
 
-const App = () => (
-  <AuthProvider>
-    <Router>
-      <div className="d-flex flex-column h-100">
-        <AppNavbar />
-        <Switch>
-          <PrivateRoute exact path="/">
-            <Chat />
-          </PrivateRoute>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/signup">
-            <SignUp />
-          </Route>
-          <Route path="*">
-            <NotFound />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
-  </AuthProvider>
-);
+const App = ({ socket }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    socket.on('newMessage', (message) => {
+      dispatch(addMessage({ message }));
+    });
+  }, []);
+
+  return (
+    <AuthProvider>
+      <Router>
+        <div className="d-flex flex-column h-100">
+          <AppNavbar />
+          <Switch>
+            <PrivateRoute exact path="/">
+              <Chat socket={socket} />
+            </PrivateRoute>
+            <Route path="/login">
+              <Login />
+            </Route>
+            <Route path="/signup">
+              <SignUp />
+            </Route>
+            <Route path="*">
+              <NotFound />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </AuthProvider>
+  );
+};
 
 export default App;

@@ -4,6 +4,7 @@ import React from 'react';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { Provider } from 'react-redux';
+import { io } from 'socket.io-client';
 
 import resources from './locales/index.js';
 import store from './store.js';
@@ -21,9 +22,11 @@ export default () => {
       resources,
     });
 
+  const socket = io();
+
   return (
     <Provider store={store}>
-      <App />
+      <App socket={socket} />
     </Provider>
   );
 };
