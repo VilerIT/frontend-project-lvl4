@@ -5,7 +5,7 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import authContext from '../contexts/index.js';
 import useAuth from '../hooks/index.js';
@@ -14,7 +14,20 @@ import Chat from './Chat.jsx';
 import Login from './Login.jsx';
 import SignUp from './SignUp.jsx';
 import NotFound from './NotFound.jsx';
+import getModal from './modals/index.js';
+import { addChannel } from '../slices/channelsInfoSlice.js';
 import { addMessage } from '../slices/messagesInfoSlice.js';
+import { closeModal } from '../slices/modalSlice.js';
+
+const renderModal = (type, socket, onExited) => {
+  if (!type) {
+    return null;
+  }
+
+  const Modal = getModal(type);
+
+  return <Modal onExited={onExited} socket={socket} />;
+};
 
 const AuthProvider = ({ children }) => {
   const userId = JSON.parse(localStorage.getItem('userId'));
@@ -49,11 +62,20 @@ const PrivateRoute = ({ children, path, exact }) => {
 };
 
 const App = ({ socket }) => {
+  const { type } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
+
+  const onModalExited = () => {
+    dispatch(closeModal());
+  };
 
   useEffect(() => {
     socket.on('newMessage', (message) => {
       dispatch(addMessage({ message }));
+    });
+
+    socket.on('newChannel', (channel) => {
+      dispatch(addChannel({ channel }));
     });
   }, []);
 
@@ -77,6 +99,7 @@ const App = ({ socket }) => {
             </Route>
           </Switch>
         </div>
+        {renderModal(type, socket, onModalExited)}
       </Router>
     </AuthProvider>
   );

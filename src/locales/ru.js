@@ -13,17 +13,18 @@ export default {
       send: 'Отправить',
       remove: 'Удалить',
       rename: 'Переименовать',
+      cancel: 'Отменить',
     },
     errors: {
       authFailed: 'Неверные имя пользователя или пароль',
       passwordTooShort: 'Не менее 6 символов',
-      usernameNotInRange: 'От 3 до 20 символов',
+      notInRange: 'От 3 до 20 символов',
       passwordsDontMatch: 'Пароли должны совпадать',
       emptyField: 'Заполните это поле',
     },
     placeholders: {
       noShorterThan: 'Не менее 6 символов',
-      usernameRange: 'От 3 до 20 символов',
+      range: 'От 3 до 20 символов',
       passwordsMustMatch: 'Пароли должны совпадать',
     },
     texts: {
@@ -32,6 +33,10 @@ export default {
       noAccount: 'Нет аккаунта?',
       registration: 'Регистрация',
       channels: 'Каналы',
+      addChannel: 'Добавить канал',
+      removeChannel: 'Удалить канал',
+      renameChannel: 'Переименовать канал',
+      areYouSure: 'Уверены?',
     },
   },
 };

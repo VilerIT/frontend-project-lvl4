@@ -10,6 +10,7 @@ import {
 } from 'react-bootstrap';
 
 import { setCurrentChannelId } from '../slices/channelsInfoSlice.js';
+import { openModal } from '../slices/modalSlice.js';
 
 const IrremovableChannel = ({ name, buttonVariant, onClick }) => (
   <Nav.Link
@@ -58,6 +59,10 @@ const Channels = () => {
 
   const getButtonVariant = (id) => (id === currentChannelId ? 'primary' : 'light');
 
+  const handleAddChannel = () => {
+    dispatch(openModal({ type: 'addChannel' }));
+  };
+
   const handleClickChannel = (id) => () => {
     dispatch(setCurrentChannelId({ id }));
   };
@@ -84,7 +89,7 @@ const Channels = () => {
     <Col xs={3} className="border-right">
       <div className="d-flex mb-2">
         <span>{t('texts.channels')}</span>
-        <Button variant="link" className="ml-auto p-0">+</Button>
+        <Button variant="link" className="ml-auto p-0" onClick={handleAddChannel}>+</Button>
       </div>
       {renderChannels()}
     </Col>

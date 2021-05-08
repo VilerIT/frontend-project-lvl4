@@ -10,8 +10,8 @@ import FormContainer from './FormContainer.jsx';
 
 const signUpSchema = yup.object().shape({
   username: yup.string()
-    .min(3, 'errors.usernameNotInRange')
-    .max(20, 'errors.usernameNotInRange'),
+    .min(3, 'errors.notInRange')
+    .max(20, 'errors.notInRange'),
   password: yup.string()
     .min(6, 'errors.passwordTooShort'),
   confirmPassword: yup.string()
@@ -54,7 +54,7 @@ const SignUp = () => {
             id="username"
             autoComplete="username"
             required
-            placeholder={t('placeholders.usernameRange')}
+            placeholder={t('placeholders.range')}
             onChange={formik.handleChange}
             value={formik.values.username}
             isInvalid={formik.errors.username}

@@ -13,17 +13,18 @@ export default {
       send: 'Send',
       remove: 'Remove',
       rename: 'Rename',
+      cancel: 'Cancel',
     },
     errors: {
       authFailed: 'Incorrect username or password',
       passwordTooShort: 'At least 6 characters',
-      usernameNotInRange: 'From 3 to 20 characters',
+      notInRange: 'From 3 to 20 characters',
       passwordsDontMatch: 'Passwords must match',
       emptyField: 'Fill this field',
     },
     placeholders: {
       noShorterThan: 'At least 6 characters',
-      usernameRange: 'From 3 to 20 characters',
+      range: 'From 3 to 20 characters',
       passwordsMustMatch: 'Passwords must match',
     },
     texts: {
@@ -32,6 +33,10 @@ export default {
       noAccount: 'No account?',
       registration: 'Sign up',
       channels: 'Channels',
+      addChannel: 'Add channel',
+      removeChannel: 'Remove channel',
+      renameChannel: 'Rename channel',
+      areYouSure: 'Are you sure?',
     },
   },
 };

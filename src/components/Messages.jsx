@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Col,
@@ -37,7 +37,6 @@ const MessagesBox = () => {
 
 const NewMessageForm = ({ socket }) => {
   const { currentChannelId } = useSelector((state) => state.channelsInfo);
-  const [state, setState] = useState('filling');
   const inputRef = useRef();
 
   const formik = useFormik({
@@ -45,15 +44,15 @@ const NewMessageForm = ({ socket }) => {
       body: '',
     },
     validationSchema: messageSchema,
-    onSubmit: ({ body }) => {
-      setState('pending');
+    onSubmit: ({ body }, { resetForm, setSubmitting }) => {
+      setSubmitting(true);
 
       const message = { body, channelId: currentChannelId, username: getUsername() };
       socket.emit('newMessage', message, ({ status }) => {
         if (status === 'ok') {
-          setState('filling');
+          setSubmitting(false);
 
-          formik.resetForm();
+          resetForm();
           inputRef.current.focus();
         }
       });
@@ -72,11 +71,11 @@ const NewMessageForm = ({ socket }) => {
             onChange={formik.handleChange}
             value={formik.values.body}
             isInvalid={formik.errors.body}
-            readOnly={state === 'pending'}
             ref={inputRef}
+            readOnly={formik.isSubmitting}
           />
           <InputGroup.Append>
-            <Button type="submit" disabled={state === 'pending'}>{t('buttons.send')}</Button>
+            <Button type="submit" disabled={formik.isSubmitting}>{t('buttons.send')}</Button>
           </InputGroup.Append>
           {formik.errors.body
             && <Form.Control.Feedback type="invalid">{t(formik.errors.body)}</Form.Control.Feedback>}
