@@ -49,6 +49,7 @@ const RenameChannelForm = ({ onHide, socket }) => {
           onChange={formik.handleChange}
           value={formik.values.name}
           isInvalid={formik.errors.name}
+          readOnly={formik.isSubmitting}
           ref={nameRef}
         />
         {formik.errors.name

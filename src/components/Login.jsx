@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import axios from 'axios';
@@ -22,7 +22,9 @@ const Login = () => {
     usernameRef.current.focus();
   }, []);
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
+    setSubmitting(true);
+
     const url = routes.login();
 
     setAuthFailed(false);
@@ -42,6 +44,8 @@ const Login = () => {
       }
 
       throw e;
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -70,6 +74,7 @@ const Login = () => {
             type="text"
             onChange={formik.handleChange}
             value={formik.values.username}
+            readOnly={formik.isSubmitting}
             ref={usernameRef}
             isInvalid={authFailed}
           />
@@ -84,6 +89,7 @@ const Login = () => {
             type="password"
             onChange={formik.handleChange}
             value={formik.values.password}
+            readOnly={formik.isSubmitting}
             isInvalid={authFailed}
           />
           {authFailed
@@ -93,7 +99,10 @@ const Login = () => {
           type="submit"
           variant="outline-primary"
           className="w-100 mb-3"
+          disabled={formik.isSubmitting}
         >
+          {formik.isSubmitting
+            && <Spinner className="mr-1" animation="border" size="sm" />}
           {t('buttons.logIn')}
         </Button>
         <div className="text-center">
