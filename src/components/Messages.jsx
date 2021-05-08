@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Col,
@@ -8,13 +8,10 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
+
+import { messageSchema } from '../validationSchemas.js';
 
 const getUsername = () => JSON.parse(localStorage.getItem('userId')).username;
-
-const messageSchema = yup.object().shape({
-  body: yup.string().required('errors.emptyField'),
-});
 
 const MessagesBox = () => {
   const { currentChannelId } = useSelector((state) => state.channelsInfo);
@@ -60,6 +57,10 @@ const NewMessageForm = ({ socket }) => {
   });
 
   const { t } = useTranslation();
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   return (
     <div className="mt-auto">

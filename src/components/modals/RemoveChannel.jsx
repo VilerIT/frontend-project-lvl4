@@ -16,7 +16,9 @@ const RemoveChannel = ({ onExited, socket }) => {
   const handleRemoveChannel = () => {
     setPending(true);
 
-    socket.emit('removeChannel', { id: channelId }, ({ status }) => {
+    const channel = { id: channelId };
+
+    socket.emit('removeChannel', channel, ({ status }) => {
       if (status === 'ok') {
         onHide();
       }

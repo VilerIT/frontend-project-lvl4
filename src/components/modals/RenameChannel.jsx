@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Modal,
   Form,
@@ -6,26 +6,28 @@ import {
   Spinner,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
 import { channelSchema } from '../../validationSchemas.js';
 
-const AddChannelForm = ({ onHide, socket }) => {
+const RenameChannelForm = ({ onHide, socket }) => {
+  const { channelId, name } = useSelector((state) => state.modal.extra);
   const { t } = useTranslation();
 
   const nameRef = useRef();
 
   const formik = useFormik({
     initialValues: {
-      name: '',
+      name,
     },
     validationSchema: channelSchema,
-    onSubmit: ({ name }, { setSubmitting }) => {
+    onSubmit: ({ name: newName }, { setSubmitting }) => {
       setSubmitting(true);
 
-      const channel = { name };
+      const channel = { id: channelId, name: newName };
 
-      socket.emit('newChannel', channel, ({ status }) => {
+      socket.emit('renameChannel', channel, ({ status }) => {
         if (status === 'ok') {
           onHide();
         }
@@ -34,7 +36,7 @@ const AddChannelForm = ({ onHide, socket }) => {
   });
 
   useEffect(() => {
-    nameRef.current.focus();
+    nameRef.current.select();
   }, []);
 
   return (
@@ -42,7 +44,7 @@ const AddChannelForm = ({ onHide, socket }) => {
       <Form.Group>
         <Form.Control
           name="name"
-          aria-label="Add channel"
+          aria-label="Rename channel"
           className="mb-2"
           onChange={formik.handleChange}
           value={formik.values.name}
@@ -72,25 +74,24 @@ const AddChannelForm = ({ onHide, socket }) => {
   );
 };
 
-const AddChannel = ({ onExited, socket }) => {
+const RenameChannel = ({ onExited, socket }) => {
   const [show, setShow] = useState(true);
+  const { t } = useTranslation();
 
   const onHide = () => {
     setShow(false);
   };
 
-  const { t } = useTranslation();
-
   return (
     <Modal show={show} onHide={onHide} onExited={onExited}>
       <Modal.Header closeButton>
-        <Modal.Title>{t('texts.addChannel')}</Modal.Title>
+        <Modal.Title>{t('texts.renameChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <AddChannelForm onHide={onHide} socket={socket} />
+        <RenameChannelForm onHide={onHide} socket={socket} />
       </Modal.Body>
     </Modal>
   );
 };
 
-export default AddChannel;
+export default RenameChannel;

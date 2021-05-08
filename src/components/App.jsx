@@ -15,7 +15,7 @@ import Login from './Login.jsx';
 import SignUp from './SignUp.jsx';
 import NotFound from './NotFound.jsx';
 import getModal from './modals/index.js';
-import { addChannel, removeChannel } from '../slices/channelsInfoSlice.js';
+import { addChannel, removeChannel, renameChannel } from '../slices/channelsInfoSlice.js';
 import { addMessage } from '../slices/messagesInfoSlice.js';
 import { closeModal } from '../slices/modalSlice.js';
 
@@ -80,6 +80,10 @@ const App = ({ socket }) => {
 
     socket.on('removeChannel', ({ id }) => {
       dispatch(removeChannel({ id }));
+    });
+
+    socket.on('renameChannel', ({ id, name }) => {
+      dispatch(renameChannel({ id, name }));
     });
   }, []);
 

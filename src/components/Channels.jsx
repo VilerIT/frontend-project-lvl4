@@ -29,6 +29,7 @@ const RemovableChannel = ({
   buttonVariant,
   onClick,
   onRemove,
+  onRename,
   t,
 }) => (
   <Dropdown as={ButtonGroup} className="d-flex mb-2">
@@ -47,7 +48,7 @@ const RemovableChannel = ({
     />
     <Dropdown.Menu>
       <Dropdown.Item onClick={onRemove}>{t('buttons.remove')}</Dropdown.Item>
-      <Dropdown.Item>{t('buttons.rename')}</Dropdown.Item>
+      <Dropdown.Item onClick={onRename}>{t('buttons.rename')}</Dropdown.Item>
     </Dropdown.Menu>
   </Dropdown>
 );
@@ -69,6 +70,11 @@ const Channels = () => {
     dispatch(openModal({ type: 'removeChannel', extra }));
   };
 
+  const handleRenameChannel = (id, name) => () => {
+    const extra = { channelId: id, name };
+    dispatch(openModal({ type: 'renameChannel', extra }));
+  };
+
   const handleClickChannel = (id) => () => {
     dispatch(setCurrentChannelId({ id }));
   };
@@ -84,6 +90,7 @@ const Channels = () => {
               buttonVariant={getButtonVariant(id)}
               onClick={handleClickChannel(id)}
               onRemove={handleRemoveChannel(id)}
+              onRename={handleRenameChannel(id, name)}
               t={t}
             />
           </Nav.Item>

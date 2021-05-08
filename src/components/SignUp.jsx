@@ -3,22 +3,10 @@ import { Form, Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
 
 import useAuth from '../hooks/index.js';
 import FormContainer from './FormContainer.jsx';
-
-const signUpSchema = yup.object().shape({
-  username: yup.string()
-    .min(3, 'errors.notInRange')
-    .max(20, 'errors.notInRange'),
-  password: yup.string()
-    .min(6, 'errors.passwordTooShort'),
-  confirmPassword: yup.string()
-    .oneOf([
-      yup.ref('password'),
-    ], 'errors.passwordsDontMatch'),
-});
+import { signUpSchema } from '../validationSchemas.js';
 
 const SignUp = () => {
   const formik = useFormik({
