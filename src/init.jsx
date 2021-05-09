@@ -1,7 +1,7 @@
 // @ts-check
 
 import React from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { Provider } from 'react-redux';
@@ -43,12 +43,18 @@ export default async () => {
     store.dispatch(renameChannel({ id, name }));
   });
 
-  ReactDOM.render(
+  /* ReactDOM.render(
     (
       <Provider store={store}>
         <App socket={socket} />
       </Provider>
     ),
     document.getElementById('chat'),
+  ); */
+
+  return (
+    <Provider store={store}>
+      <App socket={socket} />
+    </Provider>
   );
 };
