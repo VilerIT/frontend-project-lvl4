@@ -45,6 +45,7 @@ const RenameChannelForm = ({ onHide, socket }) => {
         <Form.Control
           name="name"
           aria-label="Rename channel"
+          data-testid="rename-channel"
           className="mb-2"
           onChange={formik.handleChange}
           value={formik.values.name}

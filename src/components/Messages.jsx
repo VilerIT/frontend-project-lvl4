@@ -69,6 +69,7 @@ const NewMessageForm = ({ socket }) => {
           <Form.Control
             name="body"
             aria-label="body"
+            data-testid="new-message"
             onChange={formik.handleChange}
             value={formik.values.body}
             isInvalid={formik.errors.body}
