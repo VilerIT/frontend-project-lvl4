@@ -39,11 +39,12 @@ const Chat = ({ history }) => {
 
       setContentLoaded(true);
     } catch (e) {
-      if (e.isAxiosError && e.response.status === 401) {
+      /* if (e.isAxiosError && e.response.status === 401) {
         auth.logOut();
       }
 
-      throw e;
+      throw e; */
+      auth.logOut();
     }
   }, []);
 
