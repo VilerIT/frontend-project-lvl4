@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "A simplified version of Slack Chat.",
-  "main": "src/index.js",
+  "main": "src/index.jsx",
   "type": "module",
   "engines": {
     "node": "14.x"
