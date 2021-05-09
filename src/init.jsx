@@ -47,5 +47,5 @@ export default () => {
     <Provider store={store}>
       <App socket={socket} />
     </Provider>
-  ), document.getElementById('app'));
+  ), document.getElementById('chat'));
 };
