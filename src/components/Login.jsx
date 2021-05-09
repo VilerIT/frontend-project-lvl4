@@ -36,13 +36,15 @@ const Login = () => {
 
       history.push('/');
     } catch (e) {
-      if (e.isAxiosError && e.response.status === 401) {
+      /* if (e.isAxiosError && e.response.status === 401) {
         setAuthFailed(true);
         usernameRef.current.select();
         return;
       }
 
-      throw e;
+      throw e; */
+      setAuthFailed(true);
+      usernameRef.current.select();
     } finally {
       setSubmitting(false);
     }

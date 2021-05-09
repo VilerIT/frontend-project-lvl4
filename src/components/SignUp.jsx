@@ -40,13 +40,15 @@ const SignUp = () => {
 
         history.push('/');
       } catch (e) {
-        if (e.isAxiosError && e.response.status === 409) {
+        /* if (e.isAxiosError && e.response.status === 409) {
           setSubmitting(false);
           setSignUpFailed(true);
           return;
         }
 
-        throw e;
+        throw e; */
+        setSubmitting(false);
+        setSignUpFailed(true);
       }
     },
   });
