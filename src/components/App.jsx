@@ -3,12 +3,10 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { authContext, socketContext } from '../contexts/index.js';
-import { useAuth } from '../hooks/index.js';
 import AppNavbar from './AppNavbar.jsx';
 import Chat from './Chat.jsx';
 import Login from './Login.jsx';
@@ -48,20 +46,6 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-const PrivateRoute = ({ children, path, exact }) => {
-  const auth = useAuth();
-
-  return (
-    <Route
-      path={path}
-      exact={exact}
-      render={() => (auth.loggedIn
-        ? children
-        : <Redirect to="/login" />)}
-    />
-  );
-};
-
 const App = ({ socket }) => {
   const { type } = useSelector((state) => state.modal);
   const dispatch = useDispatch();
@@ -77,15 +61,9 @@ const App = ({ socket }) => {
           <div className="d-flex flex-column h-100">
             <AppNavbar />
             <Switch>
-              <PrivateRoute exact path="/">
-                <Chat />
-              </PrivateRoute>
-              <Route path="/login">
-                <Login />
-              </Route>
-              <Route path="/signup">
-                <SignUp />
-              </Route>
+              <Route exact path="/" component={Chat} />
+              <Route path="/login" component={Login} />
+              <Route path="/signup" component={SignUp} />
               <Route path="*">
                 <NotFound />
               </Route>

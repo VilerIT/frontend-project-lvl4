@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
@@ -9,14 +9,13 @@ import { useAuth } from '../hooks/index.js';
 import routes from '../routes.js';
 import FormContainer from './FormContainer.jsx';
 
-const Login = () => {
+const Login = ({ history }) => {
   const auth = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
 
   const { t } = useTranslation();
 
   const usernameRef = useRef();
-  const history = useHistory();
 
   useEffect(() => {
     usernameRef.current.focus();
@@ -44,9 +43,8 @@ const Login = () => {
 
       throw e; */
       setAuthFailed(true);
-      usernameRef.current.select();
-    } finally {
       setSubmitting(false);
+      usernameRef.current.select();
     }
   };
 

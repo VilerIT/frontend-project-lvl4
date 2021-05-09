@@ -21,7 +21,7 @@ const getAuthorizationHeader = () => {
   return {};
 };
 
-const Chat = () => {
+const Chat = ({ history }) => {
   const auth = useAuth();
   const dispatch = useDispatch();
   const socket = useSocket();
@@ -46,6 +46,10 @@ const Chat = () => {
       throw e;
     }
   }, []);
+
+  if (!auth.loggedIn) {
+    history.replace('/login');
+  }
 
   return contentLoaded ? (
     <Row className="flex-grow-1 h-75 pb-3">
