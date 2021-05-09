@@ -7,8 +7,8 @@ import {
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import authContext from '../contexts/index.js';
-import useAuth from '../hooks/index.js';
+import { authContext, socketContext } from '../contexts/index.js';
+import { useAuth } from '../hooks/index.js';
 import AppNavbar from './AppNavbar.jsx';
 import Chat from './Chat.jsx';
 import Login from './Login.jsx';
@@ -17,14 +17,14 @@ import NotFound from './NotFound.jsx';
 import getModal from './modals/index.js';
 import { closeModal } from '../slices/modalSlice.js';
 
-const renderModal = (type, socket, onExited) => {
+const renderModal = (type, onExited) => {
   if (!type) {
     return null;
   }
 
   const Modal = getModal(type);
 
-  return <Modal onExited={onExited} socket={socket} />;
+  return <Modal onExited={onExited} />;
 };
 
 const AuthProvider = ({ children }) => {
@@ -72,26 +72,28 @@ const App = ({ socket }) => {
 
   return (
     <AuthProvider>
-      <Router>
-        <div className="d-flex flex-column h-100">
-          <AppNavbar />
-          <Switch>
-            <PrivateRoute exact path="/">
-              <Chat socket={socket} />
-            </PrivateRoute>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/signup">
-              <SignUp />
-            </Route>
-            <Route path="*">
-              <NotFound />
-            </Route>
-          </Switch>
-        </div>
-        {renderModal(type, socket, onModalExited)}
-      </Router>
+      <socketContext.Provider value={socket}>
+        <Router>
+          <div className="d-flex flex-column h-100">
+            <AppNavbar />
+            <Switch>
+              <PrivateRoute exact path="/">
+                <Chat />
+              </PrivateRoute>
+              <Route path="/login">
+                <Login />
+              </Route>
+              <Route path="/signup">
+                <SignUp />
+              </Route>
+              <Route path="*">
+                <NotFound />
+              </Route>
+            </Switch>
+          </div>
+          {renderModal(type, onModalExited)}
+        </Router>
+      </socketContext.Provider>
     </AuthProvider>
   );
 };

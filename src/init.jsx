@@ -13,12 +13,12 @@ import App from './components/App.jsx';
 import { addChannel, removeChannel, renameChannel } from './slices/channelsInfoSlice.js';
 import { addMessage } from './slices/messagesInfoSlice.js';
 
-export default () => {
+export default async () => {
   const i18nInstance = i18n.createInstance();
 
   const lng = localStorage.getItem('lang') || 'ru';
 
-  i18nInstance
+  await i18nInstance
     .use(initReactI18next)
     .init({
       lng,
@@ -43,9 +43,12 @@ export default () => {
     store.dispatch(renameChannel({ id, name }));
   });
 
-  ReactDOM.render((
-    <Provider store={store}>
-      <App socket={socket} />
-    </Provider>
-  ), document.getElementById('chat'));
+  ReactDOM.render(
+    (
+      <Provider store={store}>
+        <App socket={socket} />
+      </Provider>
+    ),
+    document.getElementById('chat'),
+  );
 };

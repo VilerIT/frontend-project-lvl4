@@ -8,10 +8,12 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 
+import { useSocket } from '../../hooks/index.js';
 import { channelSchema } from '../../validationSchemas.js';
 
-const AddChannelForm = ({ onHide, socket }) => {
+const AddChannelForm = ({ onHide }) => {
   const { t } = useTranslation();
+  const socket = useSocket();
 
   const nameRef = useRef();
 
@@ -74,7 +76,7 @@ const AddChannelForm = ({ onHide, socket }) => {
   );
 };
 
-const AddChannel = ({ onExited, socket }) => {
+const AddChannel = ({ onExited }) => {
   const [show, setShow] = useState(true);
 
   const onHide = () => {
@@ -89,7 +91,7 @@ const AddChannel = ({ onExited, socket }) => {
         <Modal.Title>{t('texts.addChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <AddChannelForm onHide={onHide} socket={socket} />
+        <AddChannelForm onHide={onHide} />
       </Modal.Body>
     </Modal>
   );

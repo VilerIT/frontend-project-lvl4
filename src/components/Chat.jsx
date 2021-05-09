@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import routes from '../routes.js';
 import { setInitialState } from '../slices/channelsInfoSlice.js';
-import useAuth from '../hooks/index.js';
+import { useAuth, useSocket } from '../hooks/index.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 
@@ -21,9 +21,10 @@ const getAuthorizationHeader = () => {
   return {};
 };
 
-const Chat = ({ socket }) => {
+const Chat = () => {
   const auth = useAuth();
   const dispatch = useDispatch();
+  const socket = useSocket();
 
   const [contentLoaded, setContentLoaded] = useState(false);
 
@@ -49,7 +50,7 @@ const Chat = ({ socket }) => {
   return contentLoaded ? (
     <Row className="flex-grow-1 h-75 pb-3">
       <Channels />
-      <Messages socket={socket} />
+      <Messages />
     </Row>
   ) : <Spinner animation="grow" variant="primary" />;
 };

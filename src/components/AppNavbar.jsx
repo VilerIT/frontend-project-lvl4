@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 
-import useAuth from '../hooks/index.js';
+import { useAuth } from '../hooks/index.js';
 
 const languages = ['en', 'ru'];
 

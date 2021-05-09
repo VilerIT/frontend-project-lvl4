@@ -9,6 +9,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 
+import { useSocket } from '../hooks/index.js';
 import { messageSchema } from '../validationSchemas.js';
 
 const getUsername = () => JSON.parse(localStorage.getItem('userId')).username;
@@ -32,9 +33,10 @@ const MessagesBox = () => {
   );
 };
 
-const NewMessageForm = ({ socket }) => {
+const NewMessageForm = () => {
   const { currentChannelId } = useSelector((state) => state.channelsInfo);
   const inputRef = useRef();
+  const socket = useSocket();
 
   const formik = useFormik({
     initialValues: {
@@ -87,11 +89,11 @@ const NewMessageForm = ({ socket }) => {
   );
 };
 
-const Messages = ({ socket }) => (
+const Messages = () => (
   <Col className="h-100">
     <div className="d-flex flex-column h-100">
       <MessagesBox />
-      <NewMessageForm socket={socket} />
+      <NewMessageForm />
     </div>
   </Col>
 );

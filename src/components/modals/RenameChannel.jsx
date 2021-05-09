@@ -9,11 +9,13 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 
+import { useSocket } from '../../hooks/index.js';
 import { channelSchema } from '../../validationSchemas.js';
 
-const RenameChannelForm = ({ onHide, socket }) => {
+const RenameChannelForm = ({ onHide }) => {
   const { channelId, name } = useSelector((state) => state.modal.extra);
   const { t } = useTranslation();
+  const socket = useSocket();
 
   const nameRef = useRef();
 
@@ -76,7 +78,7 @@ const RenameChannelForm = ({ onHide, socket }) => {
   );
 };
 
-const RenameChannel = ({ onExited, socket }) => {
+const RenameChannel = ({ onExited }) => {
   const [show, setShow] = useState(true);
   const { t } = useTranslation();
 
@@ -90,7 +92,7 @@ const RenameChannel = ({ onExited, socket }) => {
         <Modal.Title>{t('texts.renameChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <RenameChannelForm onHide={onHide} socket={socket} />
+        <RenameChannelForm onHide={onHide} />
       </Modal.Body>
     </Modal>
   );
