@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,8 +15,6 @@ import Login from './Login.jsx';
 import SignUp from './SignUp.jsx';
 import NotFound from './NotFound.jsx';
 import getModal from './modals/index.js';
-import { addChannel, removeChannel, renameChannel } from '../slices/channelsInfoSlice.js';
-import { addMessage } from '../slices/messagesInfoSlice.js';
 import { closeModal } from '../slices/modalSlice.js';
 
 const renderModal = (type, socket, onExited) => {
@@ -71,24 +69,6 @@ const App = ({ socket }) => {
   const onModalExited = () => {
     dispatch(closeModal());
   };
-
-  useEffect(() => {
-    socket.on('newMessage', (message) => {
-      dispatch(addMessage({ message }));
-    });
-
-    socket.on('newChannel', (channel) => {
-      dispatch(addChannel({ channel }));
-    });
-
-    socket.on('removeChannel', ({ id }) => {
-      dispatch(removeChannel({ id }));
-    });
-
-    socket.on('renameChannel', ({ id, name }) => {
-      dispatch(renameChannel({ id, name }));
-    });
-  }, []);
 
   return (
     <AuthProvider>
