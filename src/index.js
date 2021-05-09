@@ -8,4 +8,4 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-init();
+export default init;
