@@ -61,9 +61,15 @@ const App = ({ socket }) => {
           <div className="d-flex flex-column h-100">
             <AppNavbar />
             <Switch>
-              <Route exact path="/" component={Chat} />
-              <Route path="/login" component={Login} />
-              <Route path="/signup" component={SignUp} />
+              <Route exact path="/">
+                <Chat />
+              </Route>
+              <Route path="/login">
+                <Login />
+              </Route>
+              <Route path="/signup">
+                <SignUp />
+              </Route>
               <Route path="*">
                 <NotFound />
               </Route>
