@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Row, Spinner } from 'react-bootstrap';
+import React, { /* useState, */ useEffect } from 'react';
+import { Row /* , Spinner */ } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -28,7 +28,7 @@ const Chat = () => {
   const socket = useSocket();
   const history = useHistory();
 
-  const [contentLoaded, setContentLoaded] = useState(false);
+  // const [contentLoaded, setContentLoaded] = useState(false);
 
   useEffect(async () => {
     const url = routes.data();
@@ -39,7 +39,7 @@ const Chat = () => {
 
       socket.auth = { token: getUserId().token };
 
-      setContentLoaded(true);
+      // setContentLoaded(true);
     } catch (e) {
       /* if (e.isAxiosError && e.response.status === 401) {
         auth.logOut();
