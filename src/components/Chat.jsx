@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Spinner } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
@@ -21,10 +22,11 @@ const getAuthorizationHeader = () => {
   return {};
 };
 
-const Chat = ({ history }) => {
+const Chat = () => {
   const auth = useAuth();
   const dispatch = useDispatch();
   const socket = useSocket();
+  const history = useHistory();
 
   const [contentLoaded, setContentLoaded] = useState(false);
 

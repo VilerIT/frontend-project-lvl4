@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
@@ -9,9 +9,10 @@ import { useAuth } from '../hooks/index.js';
 import routes from '../routes.js';
 import FormContainer from './FormContainer.jsx';
 
-const Login = ({ history }) => {
+const Login = () => {
   const auth = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
+  const history = useHistory();
 
   const { t } = useTranslation();
 
@@ -33,7 +34,7 @@ const Login = ({ history }) => {
 
       auth.logIn(res.data);
 
-      history.push('/');
+      history.replace('/');
     } catch (e) {
       /* if (e.isAxiosError && e.response.status === 401) {
         setAuthFailed(true);

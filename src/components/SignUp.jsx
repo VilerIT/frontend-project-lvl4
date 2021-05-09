@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import axios from 'axios';
@@ -9,11 +10,12 @@ import FormContainer from './FormContainer.jsx';
 import { signUpSchema } from '../validationSchemas.js';
 import routes from '../routes.js';
 
-const SignUp = ({ history }) => {
+const SignUp = () => {
   const [signUpFailed, setSignUpFailed] = useState(false);
   const auth = useAuth();
   const { t } = useTranslation();
   const usernameRef = useRef();
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
