@@ -21,6 +21,7 @@ export default {
       notInRange: 'От 3 до 20 символов',
       passwordsDontMatch: 'Пароли должны совпадать',
       emptyField: 'Заполните это поле',
+      userExists: 'Этот пользователь уже существует',
     },
     placeholders: {
       noShorterThan: 'Не менее 6 символов',

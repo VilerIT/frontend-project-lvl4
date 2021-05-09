@@ -1,28 +1,55 @@
-import React, { useEffect, useRef } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import React, { useEffect, useRef, useState } from 'react';
+import { Form, Button, Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
+import axios from 'axios';
 
 import useAuth from '../hooks/index.js';
 import FormContainer from './FormContainer.jsx';
 import { signUpSchema } from '../validationSchemas.js';
+import routes from '../routes.js';
 
 const SignUp = () => {
+  const [signUpFailed, setSignUpFailed] = useState(false);
+  const auth = useAuth();
+  const { t } = useTranslation();
+  const usernameRef = useRef();
+  const history = useHistory();
+
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
       confirmPassword: '',
     },
-    validationSchema: signUpSchema,
-    onSubmit: () => {},
-  });
+    validationSchema: () => {
+      setSignUpFailed(false);
 
-  const auth = useAuth();
-  const { t } = useTranslation();
-  const usernameRef = useRef();
-  const history = useHistory();
+      return signUpSchema;
+    },
+    onSubmit: async ({ username, password }, { setSubmitting }) => {
+      setSubmitting(true);
+
+      const url = routes.signup();
+
+      try {
+        const res = await axios.post(url, { username, password });
+
+        auth.logIn(res.data);
+
+        history.push('/');
+      } catch (e) {
+        if (e.isAxiosError && e.response.status === 409) {
+          setSubmitting(false);
+          setSignUpFailed(true);
+          return;
+        }
+
+        throw e;
+      }
+    },
+  });
 
   useEffect(() => {
     usernameRef.current.focus();
@@ -45,7 +72,8 @@ const SignUp = () => {
             placeholder={t('placeholders.range')}
             onChange={formik.handleChange}
             value={formik.values.username}
-            isInvalid={formik.errors.username}
+            isInvalid={formik.errors.username || signUpFailed}
+            readOnly={formik.isSubmitting}
             ref={usernameRef}
           />
           {formik.errors.username
@@ -62,7 +90,8 @@ const SignUp = () => {
             placeholder={t('placeholders.noShorterThan')}
             onChange={formik.handleChange}
             value={formik.values.password}
-            isInvalid={formik.errors.password}
+            readOnly={formik.isSubmitting}
+            isInvalid={formik.errors.password || signUpFailed}
           />
           {formik.errors.password
             && <Form.Control.Feedback type="invalid">{t(formik.errors.password)}</Form.Control.Feedback>}
@@ -78,12 +107,24 @@ const SignUp = () => {
             placeholder={t('placeholders.passwordsMustMatch')}
             onChange={formik.handleChange}
             value={formik.values.confirmPassword}
-            isInvalid={formik.errors.confirmPassword}
+            readOnly={formik.isSubmitting}
+            isInvalid={formik.errors.confirmPassword || signUpFailed}
           />
           {formik.errors.confirmPassword
             && <Form.Control.Feedback type="invalid">{t(formik.errors.confirmPassword)}</Form.Control.Feedback>}
+          {signUpFailed
+            && <Form.Control.Feedback type="invalid">{t('errors.userExists')}</Form.Control.Feedback>}
         </Form.Group>
-        <Button type="submit" className="w-100" variant="outline-primary">{t('buttons.signUp')}</Button>
+        <Button
+          type="submit"
+          className="w-100"
+          variant="outline-primary"
+          disabled={formik.isSubmitting}
+        >
+          {formik.isSubmitting
+            && <Spinner className="mr-2" animation="border" size="sm" />}
+          {t('buttons.signUp')}
+        </Button>
       </Form>
     </FormContainer>
   );

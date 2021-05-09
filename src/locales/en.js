@@ -21,6 +21,7 @@ export default {
       notInRange: 'From 3 to 20 characters',
       passwordsDontMatch: 'Passwords must match',
       emptyField: 'Fill this field',
+      userExists: 'This user already exists',
     },
     placeholders: {
       noShorterThan: 'At least 6 characters',
