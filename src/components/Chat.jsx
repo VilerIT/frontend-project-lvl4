@@ -54,12 +54,19 @@ const Chat = () => {
     history.replace('/login');
   }
 
-  return contentLoaded ? (
+  /* return contentLoaded ? (
     <Row className="flex-grow-1 h-75 pb-3">
       <Channels />
       <Messages />
     </Row>
-  ) : <Spinner animation="grow" variant="primary" />;
+  ) : <Spinner animation="grow" variant="primary" />; */
+
+  return (
+    <Row className="flex-grow-1 h-75 pb-3">
+      <Channels />
+      <Messages />
+    </Row>
+  );
 };
 
 export default Chat;
