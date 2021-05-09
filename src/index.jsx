@@ -31,7 +31,7 @@ i18nInstance
 
 const socket = io();
 
-const mountNode = document.getElementById('chat');
+const mountNode = document.querySelector('#chat');
 
 ReactDOM.render((
   <Provider store={store}>
