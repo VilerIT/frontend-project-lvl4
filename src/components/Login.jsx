@@ -46,6 +46,7 @@ const Login = () => {
       setAuthFailed(true);
       setSubmitting(false);
       usernameRef.current.select();
+      console.log(e);
     }
   };
 
