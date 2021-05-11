@@ -1,6 +1,5 @@
 import React, { /* useState, */ useEffect } from 'react';
 import { Row /* , Spinner */ } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
@@ -10,13 +9,13 @@ import { useAuth, useSocket } from '../hooks/index.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 
-const getUserId = () => JSON.parse(localStorage.getItem('userId'));
+const getToken = () => localStorage.getItem('token');
 
 const getAuthorizationHeader = () => {
-  const userId = getUserId();
+  const token = getToken();
 
-  if (userId && userId.token) {
-    return { Authorization: `Bearer ${userId.token}` };
+  if (token) {
+    return { Authorization: `Bearer ${token}` };
   }
 
   return {};
@@ -26,7 +25,6 @@ const Chat = () => {
   const auth = useAuth();
   const dispatch = useDispatch();
   const socket = useSocket();
-  const history = useHistory();
 
   // const [contentLoaded, setContentLoaded] = useState(false);
 
@@ -37,7 +35,7 @@ const Chat = () => {
 
       dispatch(setInitialState(res.data));
 
-      socket.auth = { token: getUserId().token };
+      socket.auth = { token: getToken() };
 
       // setContentLoaded(true);
     } catch (e) {
@@ -48,11 +46,7 @@ const Chat = () => {
       throw e; */
       auth.logOut();
     }
-  }, []);
-
-  if (!auth.loggedIn) {
-    history.replace('/login');
-  }
+  }, [getToken()]);
 
   /* return contentLoaded ? (
     <Row className="flex-grow-1 h-75 pb-3">

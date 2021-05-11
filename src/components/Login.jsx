@@ -19,6 +19,10 @@ const Login = () => {
   const usernameRef = useRef();
 
   useEffect(() => {
+    if (auth.loggedIn) {
+      history.replace('/');
+    }
+
     usernameRef.current.focus();
   }, []);
 
@@ -57,10 +61,6 @@ const Login = () => {
     },
     onSubmit: handleSubmit,
   });
-
-  if (auth.loggedIn) {
-    history.replace('/');
-  }
 
   return (
     <FormContainer>

@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -14,6 +15,7 @@ import SignUp from './SignUp.jsx';
 import NotFound from './NotFound.jsx';
 import getModal from './modals/index.js';
 import { closeModal } from '../slices/modalSlice.js';
+import { useAuth } from '../hooks/index.js';
 
 const renderModal = (type, onExited) => {
   if (!type) {
@@ -26,16 +28,18 @@ const renderModal = (type, onExited) => {
 };
 
 const AuthProvider = ({ children }) => {
-  const userId = JSON.parse(localStorage.getItem('userId'));
+  const userToken = localStorage.getItem('token');
 
-  const [loggedIn, setLoggedIn] = useState(userId && userId.token);
+  const [loggedIn, setLoggedIn] = useState(!!userToken);
 
-  const logIn = (authData) => {
-    localStorage.setItem('userId', JSON.stringify(authData));
+  const logIn = ({ token, username }) => {
+    localStorage.setItem('token', token);
+    localStorage.setItem('username', username);
     setLoggedIn(true);
   };
   const logOut = () => {
-    localStorage.removeItem('userId');
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
     setLoggedIn(false);
   };
 
@@ -43,6 +47,16 @@ const AuthProvider = ({ children }) => {
     <authContext.Provider value={{ loggedIn, logIn, logOut }}>
       {children}
     </authContext.Provider>
+  );
+};
+
+const PrivateRoute = ({ children, exact, path }) => {
+  const { loggedIn } = useAuth();
+
+  return (
+    <Route exact={exact} path={path}>
+      {loggedIn ? children : <Redirect to="/login" />}
+    </Route>
   );
 };
 
@@ -61,9 +75,9 @@ const App = ({ socket }) => {
           <div className="d-flex flex-column h-100">
             <AppNavbar />
             <Switch>
-              <Route exact path="/">
+              <PrivateRoute exact path="/">
                 <Chat />
-              </Route>
+              </PrivateRoute>
               <Route path="/login">
                 <Login />
               </Route>
