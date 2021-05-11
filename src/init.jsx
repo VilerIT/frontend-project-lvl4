@@ -28,9 +28,9 @@ export default async (socket) => {
   // const socket = io();
 
   socket.on('newMessage', (message) => {
-    console.log('received newMessage, dispatching...');
+    console.log(`(${(new Date()).getMilliseconds()})\n received newMessage, dispatching...`);
     store.dispatch(addMessage({ message }));
-    console.log('dispatched newMessage');
+    console.log(`(${(new Date()).getMilliseconds()})\n dispatched newMessage`);
   });
 
   socket.on('newChannel', (channel) => {

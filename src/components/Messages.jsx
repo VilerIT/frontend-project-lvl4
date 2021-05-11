@@ -17,7 +17,7 @@ const getUsername = () => localStorage.getItem('username');
 const MessagesBox = () => {
   const { currentChannelId } = useSelector((state) => state.channelsInfo);
   const { messages } = useSelector((state) => state.messagesInfo);
-  console.log(`messages: ${JSON.stringify(messages)}`);
+  console.log(`(${(new Date()).getMilliseconds()})\n messages: ${JSON.stringify(messages)}`);
 
   return (
     <div id="messages-box" className="chat-messages overflow-auto mb-3">
@@ -49,14 +49,14 @@ const NewMessageForm = () => {
       const message = { body, channelId: currentChannelId, username: getUsername() };
       socket.emit('newMessage', message, ({ status }) => {
         if (status === 'ok') {
-          console.log('acknowledged newMessage');
+          console.log(`(${(new Date()).getMilliseconds()})\n acknowledged newMessage`);
           setSubmitting(false);
 
           resetForm();
           inputRef.current.focus();
         }
       });
-      console.log('emitted newMessage');
+      console.log(`(${(new Date()).getMilliseconds()})\n emitted newMessage`);
     },
   });
 
