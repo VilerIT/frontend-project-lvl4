@@ -23,10 +23,9 @@ const MessagesBox = () => {
       {messages
         .filter(({ channelId }) => (parseInt(channelId, 10) === currentChannelId))
         .map(({ id, body, username }) => (
-          <div key={id} className="text-break">
+          <div key={id} className="mb-2">
             <b>{username}</b>
-            <br />
-            {body}
+            <div className="text-break">{body}</div>
           </div>
         ))}
     </div>
