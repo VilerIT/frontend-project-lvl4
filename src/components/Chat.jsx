@@ -46,7 +46,7 @@ const Chat = () => {
       throw e; */
       auth.logOut();
     }
-  }, [getToken()]);
+  }, []);
 
   /* return contentLoaded ? (
     <Row className="flex-grow-1 h-75 pb-3">
