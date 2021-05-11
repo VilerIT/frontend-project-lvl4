@@ -12,7 +12,7 @@ import { useFormik } from 'formik';
 import { useSocket } from '../hooks/index.js';
 import { messageSchema } from '../validationSchemas.js';
 
-const getUsername = () => JSON.parse(localStorage.getItem('userId')).username;
+const getUsername = () => localStorage.getItem('username');
 
 const MessagesBox = () => {
   const { currentChannelId } = useSelector((state) => state.channelsInfo);
