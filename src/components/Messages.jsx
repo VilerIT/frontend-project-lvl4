@@ -25,7 +25,7 @@ const MessagesBox = () => {
         .map(({ id, body, username }) => (
           <div key={id} className="text-break">
             <b>{username}</b>
-            :&nbsp;
+            <br />
             {body}
           </div>
         ))}

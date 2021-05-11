@@ -49,7 +49,6 @@ const SignUp = () => {
         throw e; */
         setSubmitting(false);
         setSignUpFailed(true);
-        console.log(e);
       }
     },
   });
