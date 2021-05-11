@@ -55,6 +55,7 @@ const RemovableChannel = ({
 
 const Channels = () => {
   const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
+  console.log(`channels: ${JSON.stringify(channels)}`);
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
