@@ -22,7 +22,7 @@ const MessagesBox = () => {
   return (
     <div id="messages-box" className="chat-messages overflow-auto mb-3">
       {messages
-        .filter(({ channelId }) => (parseInt(channelId, 10) === currentChannelId))
+        .filter(({ channelId }) => (Number(channelId) === currentChannelId))
         .map(({ id, body, username }) => (
           <div key={id} className="mb-2">
             <b>{username}</b>
