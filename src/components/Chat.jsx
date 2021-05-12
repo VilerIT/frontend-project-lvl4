@@ -27,31 +27,36 @@ const Chat = () => {
   const socket = useSocket();
 
   const [contentLoaded, setContentLoaded] = useState(false);
-
-  const fetchData = async () => {
-    const url = routes.data();
-    try {
-      const res = await axios.get(url, { headers: getAuthorizationHeader() });
-
-      dispatch(setInitialState(res.data));
-
-      socket.auth = { token: getToken() };
-
-      setContentLoaded(true);
-    } catch (e) {
-      /* if (e.isAxiosError && e.response.status === 401) {
-        auth.logOut();
-      }
-
-      throw e; */
-      auth.logOut();
-    }
-  };
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+
+    const fetchData = async () => {
+      const url = routes.data();
+      try {
+        const res = await axios.get(url, { headers: getAuthorizationHeader() });
+
+        dispatch(setInitialState(res.data));
+
+        socket.auth = { token: getToken() };
+
+        if (mounted) {
+          setContentLoaded(true);
+        }
+      } catch (e) {
+        /* if (e.isAxiosError && e.response.status === 401) {
+          auth.logOut();
+        }
+
+        throw e; */
+        auth.logOut();
+      }
+    };
+
     fetchData();
 
-    return () => setContentLoaded(false);
+    return () => setMounted(false);
   }, []);
 
   return contentLoaded ? (
