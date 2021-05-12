@@ -24,7 +24,7 @@ const Login = () => {
     }
 
     usernameRef.current.focus();
-  }, []);
+  });
 
   const handleSubmit = async (values, { setSubmitting }) => {
     setSubmitting(true);

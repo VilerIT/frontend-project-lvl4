@@ -59,7 +59,7 @@ const Chat = () => {
     return () => {
       mounted = false;
     };
-  }, []);
+  });
 
   return contentLoaded ? (
     <Row className="flex-grow-1 h-75 pb-3">

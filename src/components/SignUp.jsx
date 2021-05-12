@@ -59,7 +59,7 @@ const SignUp = () => {
     }
 
     usernameRef.current.focus();
-  }, []);
+  });
 
   return (
     <FormContainer>
