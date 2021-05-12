@@ -13,7 +13,7 @@ import { signUpSchema } from '../validationSchemas.js';
 import routes from '../routes.js';
 
 const SignUp = () => {
-  const [signUpFailed, setSignUpFailed] = useState(false);
+  const [signUpError, setSignUpError] = useState(null);
   const auth = useAuth();
   const { t } = useTranslation();
   const usernameRef = useRef();
@@ -26,7 +26,7 @@ const SignUp = () => {
       confirmPassword: '',
     },
     validationSchema: () => {
-      setSignUpFailed(false);
+      setSignUpError(null);
 
       return signUpSchema;
     },
@@ -36,21 +36,27 @@ const SignUp = () => {
       const url = routes.signup();
 
       try {
-        const res = await axios.post(url, { username, password });
+        const res = await axios.post(url, { username, password }, { timeout: 10000, timeoutErrorMessage: 'Network Error' });
 
         auth.logIn(res.data);
 
         history.push('/');
       } catch (e) {
-        /* if (e.isAxiosError && e.response.status === 409) {
-          setSubmitting(false);
-          setSignUpFailed(true);
-          return;
+        if (e.isAxiosError) {
+          if (e.response && e.response.status === 409) {
+            setSignUpError('userExists');
+            usernameRef.current.select();
+          } else if (e.message === 'Network Error') {
+            setSignUpError('netError');
+          }
         }
 
-        throw e; */
+        if (signUpError) {
+          setSignUpError('unknown');
+          console.error(e);
+        }
+
         setSubmitting(false);
-        setSignUpFailed(true);
       }
     },
   });
@@ -82,7 +88,7 @@ const SignUp = () => {
             placeholder={t('placeholders.range')}
             onChange={formik.handleChange}
             value={formik.values.username}
-            isInvalid={formik.errors.username || signUpFailed}
+            isInvalid={formik.errors.username || signUpError}
             readOnly={formik.isSubmitting}
             ref={usernameRef}
           />
@@ -101,7 +107,7 @@ const SignUp = () => {
             onChange={formik.handleChange}
             value={formik.values.password}
             readOnly={formik.isSubmitting}
-            isInvalid={formik.errors.password || signUpFailed}
+            isInvalid={formik.errors.password || signUpError}
           />
           {formik.errors.password
             && <Form.Control.Feedback type="invalid">{t(formik.errors.password)}</Form.Control.Feedback>}
@@ -118,12 +124,12 @@ const SignUp = () => {
             onChange={formik.handleChange}
             value={formik.values.confirmPassword}
             readOnly={formik.isSubmitting}
-            isInvalid={formik.errors.confirmPassword || signUpFailed}
+            isInvalid={formik.errors.confirmPassword || signUpError}
           />
           {formik.errors.confirmPassword
             && <Form.Control.Feedback type="invalid">{t(formik.errors.confirmPassword)}</Form.Control.Feedback>}
-          {signUpFailed
-            && <Form.Control.Feedback type="invalid">{t('errors.userExists')}</Form.Control.Feedback>}
+          {signUpError
+            && <Form.Control.Feedback type="invalid">{t(`errors.${signUpError}`)}</Form.Control.Feedback>}
         </Form.Group>
         <Button
           type="submit"

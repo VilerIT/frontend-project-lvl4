@@ -13,7 +13,7 @@ import FormContainer from './FormContainer.jsx';
 
 const Login = () => {
   const auth = useAuth();
-  const [authFailed, setAuthFailed] = useState(false);
+  const [error, setError] = useState(null);
   const history = useHistory();
 
   const { t } = useTranslation();
@@ -39,25 +39,30 @@ const Login = () => {
 
     const url = routes.login();
 
-    setAuthFailed(false);
+    setError(null);
 
     try {
-      const res = await axios.post(url, { ...values });
+      const res = await axios.post(url, { ...values }, { timeout: 10000, timeoutErrorMessage: 'Network Error' });
 
       auth.logIn(res.data);
 
       history.replace('/');
     } catch (e) {
-      /* if (e.isAxiosError && e.response.status === 401) {
-        setAuthFailed(true);
-        usernameRef.current.select();
-        return;
+      if (e.isAxiosError) {
+        if (e.response && e.response.status === 401) {
+          setError('authFailed');
+          usernameRef.current.select();
+        } else if (e.message === 'Network Error') {
+          setError('netError');
+        }
       }
 
-      throw e; */
-      setAuthFailed(true);
+      if (error) {
+        setError('unknown');
+        console.error(e);
+      }
+
       setSubmitting(false);
-      usernameRef.current.select();
     }
   };
 
@@ -84,7 +89,7 @@ const Login = () => {
             value={formik.values.username}
             readOnly={formik.isSubmitting}
             ref={usernameRef}
-            isInvalid={authFailed}
+            isInvalid={!!error}
           />
         </Form.Group>
         <Form.Group>
@@ -98,10 +103,10 @@ const Login = () => {
             onChange={formik.handleChange}
             value={formik.values.password}
             readOnly={formik.isSubmitting}
-            isInvalid={authFailed}
+            isInvalid={!!error}
           />
-          {authFailed
-            && <Form.Control.Feedback type="invalid">{t('errors.authFailed')}</Form.Control.Feedback>}
+          {error
+            && <Form.Control.Feedback type="invalid">{t(`errors.${error}`)}</Form.Control.Feedback>}
         </Form.Group>
         <Button
           type="submit"

@@ -22,6 +22,8 @@ export default {
       passwordsDontMatch: 'Passwords must match',
       emptyField: 'Fill this field',
       userExists: 'This user already exists',
+      netError: 'Network error, check your Internet connection',
+      unknown: 'Something went wrong, try again',
     },
     placeholders: {
       noShorterThan: 'At least 6 characters',

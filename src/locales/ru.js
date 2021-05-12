@@ -22,6 +22,8 @@ export default {
       passwordsDontMatch: 'Пароли должны совпадать',
       emptyField: 'Заполните это поле',
       userExists: 'Этот пользователь уже существует',
+      netError: 'Ошибка сети, проверьте свое Интернет-соединение',
+      unknown: 'Что-то пошло не так, попробуйте снова',
     },
     placeholders: {
       noShorterThan: 'Не менее 6 символов',
