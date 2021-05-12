@@ -29,9 +29,11 @@ const AddChannelForm = ({ onHide }) => {
 
       socket.emit('newChannel', channel, ({ status }) => {
         if (status === 'ok') {
+          console.log(`(${(new Date()).getMilliseconds()})\n acknowledged newMessage`);
           onHide();
         }
       });
+      console.log(`(${(new Date()).getMilliseconds()})\n emitted newMessage`);
     },
   });
 

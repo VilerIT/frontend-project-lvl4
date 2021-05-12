@@ -28,13 +28,13 @@ export default async (socket) => {
   // const socket = io();
 
   socket.on('newMessage', (message) => {
-    console.log(`(${(new Date()).getMilliseconds()})\n received newMessage, dispatching...`);
     store.dispatch(addMessage({ message }));
-    console.log(`(${(new Date()).getMilliseconds()})\n dispatched newMessage`);
   });
 
   socket.on('newChannel', (channel) => {
+    console.log(`(${(new Date()).getMilliseconds()})\n received newChannel, dispatching...`);
     store.dispatch(addChannel({ channel }));
+    console.log(`(${(new Date()).getMilliseconds()})\n dispatched newChannel`);
   });
 
   socket.on('removeChannel', ({ id }) => {

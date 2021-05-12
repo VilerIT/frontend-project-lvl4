@@ -49,14 +49,12 @@ const NewMessageForm = () => {
       const message = { body, channelId: currentChannelId, username: getUsername() };
       socket.emit('newMessage', message, ({ status }) => {
         if (status === 'ok') {
-          console.log(`(${(new Date()).getMilliseconds()})\n acknowledged newMessage`);
           setSubmitting(false);
 
           resetForm();
           inputRef.current.focus();
         }
       });
-      console.log(`(${(new Date()).getMilliseconds()})\n emitted newMessage`);
     },
   });
 

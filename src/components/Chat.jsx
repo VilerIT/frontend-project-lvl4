@@ -45,12 +45,12 @@ const Chat = () => {
           setContentLoaded(true);
         }
       } catch (e) {
-        /* if (e.isAxiosError && e.response.status === 401) {
+        if (e.isAxiosError) {
           auth.logOut();
+          return;
         }
 
-        throw e; */
-        auth.logOut();
+        throw e;
       }
     };
 
