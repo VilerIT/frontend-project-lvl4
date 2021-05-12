@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect } from 'react';
 import { Row, Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
@@ -59,7 +61,7 @@ const Chat = () => {
     return () => {
       mounted = false;
     };
-  }, [auth, dispatch, socket]);
+  }, []);
 
   return contentLoaded ? (
     <Row className="flex-grow-1 h-75 pb-3">

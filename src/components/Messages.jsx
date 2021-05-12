@@ -17,7 +17,6 @@ const getUsername = () => localStorage.getItem('username');
 const MessagesBox = () => {
   const { currentChannelId } = useSelector((state) => state.channelsInfo);
   const { messages } = useSelector((state) => state.messagesInfo);
-  console.log(`(${(new Date()).getMilliseconds()})\n messages: ${JSON.stringify(messages)}`);
 
   return (
     <div id="messages-box" className="chat-messages overflow-auto mb-3">
