@@ -28,29 +28,31 @@ const Chat = () => {
 
   const [contentLoaded, setContentLoaded] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const url = routes.data();
-      try {
-        const res = await axios.get(url, { headers: getAuthorizationHeader() });
+  const fetchData = async () => {
+    const url = routes.data();
+    try {
+      const res = await axios.get(url, { headers: getAuthorizationHeader() });
 
-        dispatch(setInitialState(res.data));
+      dispatch(setInitialState(res.data));
 
-        socket.auth = { token: getToken() };
+      socket.auth = { token: getToken() };
 
-        setContentLoaded(true);
-      } catch (e) {
-        /* if (e.isAxiosError && e.response.status === 401) {
-          auth.logOut();
-        }
-
-        throw e; */
+      setContentLoaded(true);
+    } catch (e) {
+      /* if (e.isAxiosError && e.response.status === 401) {
         auth.logOut();
       }
-    };
 
+      throw e; */
+      auth.logOut();
+    }
+  };
+
+  useEffect(() => {
     fetchData();
-  }, [contentLoaded]);
+
+    return () => setContentLoaded(false);
+  }, []);
 
   return contentLoaded ? (
     <Row className="flex-grow-1 h-75 pb-3">
