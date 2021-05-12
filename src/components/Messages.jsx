@@ -23,12 +23,16 @@ const MessagesBox = () => {
     <div id="messages-box" className="chat-messages overflow-auto mb-3">
       {messages
         .filter(({ channelId }) => (Number(channelId) === currentChannelId))
-        .map(({ id, body, username }) => (
-          <div key={id} className="mb-2">
-            <b>{username}</b>
-            <div className="text-break">{body}</div>
-          </div>
-        ))}
+        .map(({ id, body, username }, i) => {
+          const sameUser = (i !== 0 && messages[i - 1].username === username);
+          return (
+            <div key={id} className={(i === 0 || sameUser) ? '' : 'mt-2'}>
+              {!sameUser
+                && <b>{username}</b>}
+              <div className="text-break">{body}</div>
+            </div>
+          );
+        })}
     </div>
   );
 };
