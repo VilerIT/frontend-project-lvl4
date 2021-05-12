@@ -1,5 +1,5 @@
-import React, { /* useState, */ useEffect } from 'react';
-import { Row /* , Spinner */ } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Row, Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 
@@ -26,41 +26,38 @@ const Chat = () => {
   const dispatch = useDispatch();
   const socket = useSocket();
 
-  // const [contentLoaded, setContentLoaded] = useState(false);
+  const [contentLoaded, setContentLoaded] = useState(false);
 
-  useEffect(async () => {
-    const url = routes.data();
-    try {
-      const res = await axios.get(url, { headers: getAuthorizationHeader() });
+  useEffect(() => {
+    const fetchData = async () => {
+      const url = routes.data();
+      try {
+        const res = await axios.get(url, { headers: getAuthorizationHeader() });
 
-      dispatch(setInitialState(res.data));
+        dispatch(setInitialState(res.data));
 
-      socket.auth = { token: getToken() };
+        socket.auth = { token: getToken() };
 
-      // setContentLoaded(true);
-    } catch (e) {
-      /* if (e.isAxiosError && e.response.status === 401) {
+        setContentLoaded(true);
+      } catch (e) {
+        /* if (e.isAxiosError && e.response.status === 401) {
+          auth.logOut();
+        }
+
+        throw e; */
         auth.logOut();
       }
+    };
 
-      throw e; */
-      auth.logOut();
-    }
+    fetchData();
   }, []);
 
-  /* return contentLoaded ? (
+  return contentLoaded ? (
     <Row className="flex-grow-1 h-75 pb-3">
       <Channels />
       <Messages />
     </Row>
-  ) : <Spinner animation="grow" variant="primary" />; */
-
-  return (
-    <Row className="flex-grow-1 h-75 pb-3">
-      <Channels />
-      <Messages />
-    </Row>
-  );
+  ) : <Spinner animation="grow" variant="primary" />;
 };
 
 export default Chat;
