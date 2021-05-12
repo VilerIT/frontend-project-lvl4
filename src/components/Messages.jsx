@@ -5,6 +5,7 @@ import {
   Form,
   InputGroup,
   Button,
+  Spinner,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
@@ -78,7 +79,11 @@ const NewMessageForm = () => {
             readOnly={formik.isSubmitting}
           />
           <InputGroup.Append>
-            <Button type="submit" disabled={formik.isSubmitting}>{t('buttons.send')}</Button>
+            <Button type="submit" disabled={formik.isSubmitting}>
+              {formik.isSubmitting
+                && <Spinner className="mr-1" animation="border" size="sm" />}
+              {t('buttons.send')}
+            </Button>
           </InputGroup.Append>
           {formik.errors.body
             && <Form.Control.Feedback type="invalid">{t(formik.errors.body)}</Form.Control.Feedback>}
