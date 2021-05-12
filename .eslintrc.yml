@@ -13,6 +13,7 @@ extends:
   - 'plugin:react/recommended'
   - 'plugin:functional/external-recommended'
   - 'plugin:functional/recommended'
+  - 'plugin:react-hooks/recommended'
   - airbnb
 
 parser: babel-eslint

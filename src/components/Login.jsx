@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useEffect, useRef, useState, useCallback,
+} from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -18,13 +20,19 @@ const Login = () => {
 
   const usernameRef = useRef();
 
-  useEffect(() => {
-    if (auth.loggedIn) {
-      history.replace('/');
-    }
+  const redirectAuthorized = useCallback(
+    () => {
+      if (auth.loggedIn) {
+        history.replace('/');
+      }
+    },
+    [auth.loggedIn, history],
+  );
 
+  useEffect(() => {
+    redirectAuthorized();
     usernameRef.current.focus();
-  }, [auth.loggedIn, history]);
+  }, [redirectAuthorized]);
 
   const handleSubmit = async (values, { setSubmitting }) => {
     setSubmitting(true);

@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useEffect, useRef, useState, useCallback,
+} from 'react';
 import { Form, Button, Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -53,13 +55,19 @@ const SignUp = () => {
     },
   });
 
-  useEffect(() => {
-    if (auth.loggedIn) {
-      history.replace('/');
-    }
+  const redirectAuthorized = useCallback(
+    () => {
+      if (auth.loggedIn) {
+        history.replace('/');
+      }
+    },
+    [auth.loggedIn, history],
+  );
 
+  useEffect(() => {
+    redirectAuthorized();
     usernameRef.current.focus();
-  }, [auth.loggedIn, history]);
+  }, [redirectAuthorized]);
 
   return (
     <FormContainer>
