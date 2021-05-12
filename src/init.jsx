@@ -16,7 +16,7 @@ import { addMessage } from './slices/messagesInfoSlice.js';
 export default async () => {
   const i18nInstance = i18n.createInstance();
 
-  const lng = localStorage.getItem('lang') || 'ru';
+  const lng = localStorage.getItem('lang') || 'en';
 
   await i18nInstance
     .use(initReactI18next)
