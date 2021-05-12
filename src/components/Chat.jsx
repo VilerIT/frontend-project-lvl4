@@ -27,10 +27,10 @@ const Chat = () => {
   const socket = useSocket();
 
   const [contentLoaded, setContentLoaded] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    // eslint-disable-next-line functional/no-let
+    let mounted = true;
 
     const fetchData = async () => {
       const url = routes.data();
@@ -56,7 +56,9 @@ const Chat = () => {
 
     fetchData();
 
-    return () => setMounted(false);
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   return contentLoaded ? (
