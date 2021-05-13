@@ -69,7 +69,7 @@ const AddChannelForm = ({ onHide }) => {
         <Button type="submit" disabled={formik.isSubmitting}>
           {formik.isSubmitting
             && <Spinner className="mr-1" animation="border" size="sm" />}
-          {t('buttons.send')}
+          {t('buttons.add')}
         </Button>
       </div>
     </Form>

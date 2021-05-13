@@ -11,6 +11,7 @@ export default {
       logIn: 'Log in',
       logOut: 'Log out',
       send: 'Send',
+      add: 'Add',
       remove: 'Remove',
       rename: 'Rename',
       cancel: 'Cancel',

@@ -11,6 +11,7 @@ export default {
       logIn: 'Войти',
       logOut: 'Выйти',
       send: 'Отправить',
+      add: 'Добавить',
       remove: 'Удалить',
       rename: 'Переименовать',
       cancel: 'Отменить',
