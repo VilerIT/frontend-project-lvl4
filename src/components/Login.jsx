@@ -76,7 +76,7 @@ const Login = () => {
 
   return (
     <FormContainer>
-      <Form className="p-3" onSubmit={formik.handleSubmit}>
+      <Form data-testid="login-form" className="p-3" onSubmit={formik.handleSubmit}>
         <Form.Group>
           <Form.Label htmlFor="username">{t('labels.yourNickname')}</Form.Label>
           <Form.Control

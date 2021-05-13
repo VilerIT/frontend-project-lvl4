@@ -1,7 +1,6 @@
 // @ts-check
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { Provider } from 'react-redux';
@@ -13,7 +12,7 @@ import App from './components/App.jsx';
 import { addChannel, removeChannel, renameChannel } from './slices/channelsInfoSlice.js';
 import { addMessage } from './slices/messagesInfoSlice.js';
 
-export default async () => {
+export default async (socketClient = io) => {
   const i18nInstance = i18n.createInstance();
 
   const lng = localStorage.getItem('lang') || 'en';
@@ -25,7 +24,7 @@ export default async () => {
       resources,
     });
 
-  const socket = io();
+  const socket = socketClient();
 
   socket.on('newMessage', (message) => {
     store.dispatch(addMessage({ message }));
@@ -43,12 +42,9 @@ export default async () => {
     store.dispatch(renameChannel({ id, name }));
   });
 
-  ReactDOM.render(
-    (
-      <Provider store={store}>
-        <App socket={socket} />
-      </Provider>
-    ),
-    document.getElementById('chat'),
+  return (
+    <Provider store={store}>
+      <App socket={socket} />
+    </Provider>
   );
 };

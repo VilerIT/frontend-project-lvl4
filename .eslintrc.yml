@@ -3,17 +3,24 @@ root: true
 plugins:
   - functional
   - react
+  - 'jest'
+  - 'jest-dom'
+  - 'testing-library'
 
 env:
   browser: true
   es2021: true
   node: true
+  jest/globals: true
 
 extends:
   - 'plugin:react/recommended'
   - 'plugin:functional/external-recommended'
   - 'plugin:functional/recommended'
   - 'plugin:react-hooks/recommended'
+  - 'plugin:jest-dom/recommended'
+  - 'plugin:testing-library/react'
+  - 'plugin:jest/recommended'
   - airbnb
 
 parser: babel-eslint
@@ -39,4 +46,6 @@ rules:
   functional/functional-parameters: 0
   functional/no-try-statement: 0
   functional/no-throw-statement: 0
+  functional/no-let: 0
+  testing-library/no-debug: 0
   no-param-reassign: ["error", { "props": false }]
