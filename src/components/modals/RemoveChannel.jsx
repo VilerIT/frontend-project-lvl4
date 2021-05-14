@@ -48,6 +48,7 @@ const RemoveChannel = ({ onExited }) => {
           <Button
             type="button"
             variant="danger"
+            data-testid="remove-button"
             disabled={pending}
             onClick={handleRemoveChannel}
           >

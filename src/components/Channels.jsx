@@ -45,8 +45,9 @@ const RemovableChannel = ({
       split
       variant={buttonVariant}
       className="flex-grow-0"
+      data-testid="channel-dropdown"
     />
-    <Dropdown.Menu>
+    <Dropdown.Menu data-testid="channel-dropdown-menu">
       <Dropdown.Item onClick={onRemove}>{t('buttons.remove')}</Dropdown.Item>
       <Dropdown.Item onClick={onRename}>{t('buttons.rename')}</Dropdown.Item>
     </Dropdown.Menu>

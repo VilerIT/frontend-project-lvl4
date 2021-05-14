@@ -21,7 +21,7 @@ const token = 'random-token';
 const data = {
   channels: [
     { id: 1, name: 'channel1', removable: false },
-    { id: 2, name: 'channel2', removable: true },
+    { id: 2, name: 'channel2', removable: false },
   ],
   currentChannelId: 1,
   messages: [],
@@ -66,15 +66,37 @@ describe('Channels', () => {
     expect(await screen.findByRole('button', { name: 'channel2' })).toBeInTheDocument();
   });
 
-  test('Add channels', async () => {
+  test('Add/Rename/Remove channels', async () => {
     getDataScope();
+    let newChannelId;
 
     socket.on('newChannel', (channel, ack) => {
+      expect(channel.name).toBe('new-channel');
+
+      newChannelId = _.uniqueId();
+
       socket.emit('newChannel', {
         ...channel,
         removable: true,
-        id: _.uniqueId(),
+        id: newChannelId,
       });
+
+      ack({ status: 'ok' });
+    });
+
+    socket.on('renameChannel', (channel, ack) => {
+      expect(channel.id).toBe(newChannelId);
+      expect(channel.name).toBe('renamed!');
+
+      socket.emit('renameChannel', { ...channel });
+
+      ack({ status: 'ok' });
+    });
+
+    socket.on('removeChannel', (channel, ack) => {
+      expect(channel.id).toBe(newChannelId);
+
+      socket.emit('removeChannel', { ...channel });
 
       ack({ status: 'ok' });
     });
@@ -96,5 +118,42 @@ describe('Channels', () => {
     await waitFor(() => expect(modal).not.toBeInTheDocument());
 
     expect(await screen.findByRole('button', { name: 'new-channel' })).toBeInTheDocument();
+
+    await act(async () => {
+      userEvent.click(await screen.findByTestId('channel-dropdown'));
+    });
+
+    await waitFor(async () => {
+      expect(await screen.findByTestId('channel-dropdown-menu'))
+        .not
+        .toHaveStyle('pointer-events: none;');
+    });
+
+    await act(async () => {
+      userEvent.click(await screen.findByRole('button', { name: 'Rename' }));
+      userEvent.type(await screen.findByDisplayValue('new-channel'), 'renamed!');
+      userEvent.click(await screen.findByTestId('rename-button'));
+    });
+
+    const renamedChannel = await screen.findByRole('button', { name: 'renamed!' });
+
+    expect(renamedChannel).toBeInTheDocument();
+
+    await act(async () => {
+      userEvent.click(await screen.findByTestId('channel-dropdown'));
+    });
+
+    await waitFor(async () => {
+      expect(await screen.findByTestId('channel-dropdown-menu'))
+        .not
+        .toHaveStyle('pointer-events: none;');
+    });
+
+    await act(async () => {
+      userEvent.click(await screen.findByRole('button', { name: 'Remove' }));
+      userEvent.click(await screen.findByTestId('remove-button'));
+    });
+
+    expect(renamedChannel).not.toBeInTheDocument();
   });
 });

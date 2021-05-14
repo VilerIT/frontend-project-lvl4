@@ -1,6 +1,3 @@
-import 'core-js/stable/index.js';
-import 'regenerator-runtime/runtime.js';
-
 import {
   act, render, screen, waitFor,
 } from '@testing-library/react';
