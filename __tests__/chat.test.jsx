@@ -24,7 +24,14 @@ const data = {
     { id: 2, name: 'channel2', removable: false },
   ],
   currentChannelId: 1,
-  messages: [],
+  messages: [
+    {
+      id: 3, channelId: 1, body: 'channel1 message', username: 'user',
+    },
+    {
+      id: 4, channelId: 2, body: 'channel2 message', username: 'user',
+    },
+  ],
 };
 
 const getDataScope = () => (
@@ -33,34 +40,32 @@ const getDataScope = () => (
     .reply(200, data)
 );
 
-describe('Channels', () => {
-  let socket;
+let socket;
 
-  beforeEach(async () => {
-    nock('http://localhost')
-      .post(routes.login(), { username: 'user', password: 'pass' })
-      .reply(200, { token, username: 'random' });
+beforeEach(async () => {
+  nock('http://localhost')
+    .post(routes.login(), { username: 'user', password: 'pass' })
+    .reply(200, { token, username: 'random' });
 
-    socket = new MockedSocket();
+  socket = new MockedSocket();
 
-    const vdom = await init(socket.socketClient);
+  const vdom = await init(socket.socketClient);
 
-    render(vdom);
+  render(vdom);
 
-    await act(async () => {
-      userEvent.type(await screen.findByLabelText(/Your nickname/i), 'user');
-      userEvent.type(await screen.findByLabelText(/Password/i), 'pass');
+  await act(async () => {
+    userEvent.type(await screen.findByLabelText(/Your nickname/i), 'user');
+    userEvent.type(await screen.findByLabelText(/Password/i), 'pass');
 
-      userEvent.click(await screen.findByRole('button', { name: 'Log in' }));
-    });
+    userEvent.click(await screen.findByRole('button', { name: 'Log in' }));
   });
+});
 
+describe('Channels', () => {
   test('Must show channels properly', async () => {
     const scope = getDataScope();
 
-    await waitFor(() => {
-      expect(scope.isDone()).toBe(true);
-    });
+    await waitFor(() => expect(scope.isDone()).toBe(true));
 
     expect(await screen.findByRole('button', { name: 'channel1' })).toBeInTheDocument();
     expect(await screen.findByRole('button', { name: 'channel2' })).toBeInTheDocument();
@@ -155,5 +160,39 @@ describe('Channels', () => {
     });
 
     expect(renamedChannel).not.toBeInTheDocument();
+  });
+});
+
+describe('Messages', () => {
+  test('Must show messages properly', async () => {
+    const scope = getDataScope();
+
+    await waitFor(() => expect(scope.isDone()).toBe(true));
+
+    const firstMessage = await screen.findByText(/channel1 message/i);
+    expect(firstMessage).toBeInTheDocument();
+
+    await act(async () => {
+      userEvent.click(await screen.findByRole('button', { name: 'channel2' }));
+    });
+
+    expect(firstMessage).not.toBeInTheDocument();
+    expect(await screen.findByText(/channel2 message/i)).toBeInTheDocument();
+  });
+
+  test('Add messages', async () => {
+    getDataScope();
+
+    socket.on('newMessage', (message, ack) => {
+      socket.emit('newMessage', { ...message, id: _.uniqueId() });
+      ack({ status: 'ok' });
+    });
+
+    await act(async () => {
+      userEvent.type(await screen.findByTestId('new-message'), 'Hello.');
+      userEvent.click(await screen.findByRole('button', { name: 'Send' }));
+    });
+
+    expect(await screen.findByText('Hello.')).toBeInTheDocument();
   });
 });
