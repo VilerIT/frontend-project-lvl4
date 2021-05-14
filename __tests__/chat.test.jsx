@@ -1,6 +1,3 @@
-import 'core-js/stable/index.js';
-import 'regenerator-runtime/runtime.js';
-
 import _ from 'lodash';
 import {
   act, render, screen, waitFor,
@@ -14,25 +11,11 @@ import '@testing-library/jest-dom/extend-expect.js';
 
 import init from '../src/init.jsx';
 import routes from '../src/routes.js';
+import data from '../__fixtures__/data.js';
 
 axios.defaults.adapter = httpAdapter;
 
 const token = 'random-token';
-const data = {
-  channels: [
-    { id: 1, name: 'channel1', removable: false },
-    { id: 2, name: 'channel2', removable: false },
-  ],
-  currentChannelId: 1,
-  messages: [
-    {
-      id: 3, channelId: 1, body: 'channel1 message', username: 'user',
-    },
-    {
-      id: 4, channelId: 2, body: 'channel2 message', username: 'user',
-    },
-  ],
-};
 
 const getDataScope = () => (
   nock('http://localhost', { reqheaders: { Authorization: `Bearer ${token}` } })
@@ -41,6 +24,10 @@ const getDataScope = () => (
 );
 
 let socket;
+
+beforeAll(() => {
+  nock.disableNetConnect();
+});
 
 beforeEach(async () => {
   nock('http://localhost')
@@ -59,6 +46,10 @@ beforeEach(async () => {
 
     userEvent.click(await screen.findByRole('button', { name: 'Log in' }));
   });
+});
+
+afterAll(() => {
+  nock.enableNetConnect();
 });
 
 describe('Channels', () => {
