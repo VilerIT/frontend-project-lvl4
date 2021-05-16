@@ -3,7 +3,7 @@ import {
   Navbar,
   Nav,
   NavDropdown,
-  Button,
+  // Button,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -41,14 +41,31 @@ const LanguageSwitcher = () => {
   );
 };
 
-const AuthButton = () => {
+const AuthSection = () => {
   const auth = useAuth();
   const { t } = useTranslation();
 
+  const renderSection = () => {
+    if (auth.loggedIn) {
+      return (
+        <>
+          <Navbar.Text>
+            {localStorage.getItem('username')}
+            &nbsp;
+            |
+          </Navbar.Text>
+          <Nav.Link onClick={auth.logOut}>{t('buttons.logOut')}</Nav.Link>
+        </>
+      );
+    }
+
+    return <Nav.Link as={Link} to="/login">{t('buttons.logIn')}</Nav.Link>;
+  };
+
   return (
-    auth.loggedIn
-      ? <Button onClick={auth.logOut}>{t('buttons.logOut')}</Button>
-      : <Button as={Link} to="/login">{t('buttons.logIn')}</Button>
+    <Navbar.Collapse>
+      {renderSection()}
+    </Navbar.Collapse>
   );
 };
 
@@ -59,7 +76,7 @@ const AppNavbar = () => (
       <LanguageSwitcher />
     </Nav>
     <Nav>
-      <AuthButton />
+      <AuthSection />
     </Nav>
   </Navbar>
 );
