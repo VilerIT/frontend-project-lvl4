@@ -24,10 +24,10 @@ const MessagesBox = () => {
       {messages
         .filter(({ channelId }) => (Number(channelId) === currentChannelId))
         .map(({ id, body, username }, i) => {
-          const sameUser = (i !== 0 && messages[i - 1].username === username);
+          const isSameUser = (i !== 0 && messages[i - 1].username === username);
           return (
-            <div key={id} className={(i === 0 || sameUser) ? '' : 'mt-2'}>
-              {!sameUser
+            <div key={id} className={(i === 0 || isSameUser) ? '' : 'mt-2'}>
+              {!isSameUser
                 && <b>{username}</b>}
               <div className="text-break">{body}</div>
             </div>

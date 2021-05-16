@@ -1,4 +1,4 @@
-# Vilerchat
+# VilerChat
 [![CI](https://github.com/VilerIT/frontend-project-lvl4/actions/workflows/ci.yml/badge.svg)](https://github.com/VilerIT/frontend-project-lvl4/actions/workflows/ci.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/2dadffbaf25ba9d8b355/maintainability)](https://codeclimate.com/github/VilerIT/vilerchat/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/2dadffbaf25ba9d8b355/test_coverage)](https://codeclimate.com/github/VilerIT/vilerchat/test_coverage)

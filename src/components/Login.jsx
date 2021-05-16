@@ -46,7 +46,7 @@ const Login = () => {
 
       auth.logIn(res.data);
 
-      history.replace('/');
+      history.push('/');
     } catch (e) {
       if (e.isAxiosError) {
         if (e.response && e.response.status === 401) {

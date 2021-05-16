@@ -54,7 +54,7 @@ const AuthButton = () => {
 
 const AppNavbar = () => (
   <Navbar className="mb-3" bg="light">
-    <Navbar.Brand as={Link} to="/">Vilerchat</Navbar.Brand>
+    <Navbar.Brand as={Link} to="/">VilerChat</Navbar.Brand>
     <Nav className="mr-auto">
       <LanguageSwitcher />
     </Nav>
