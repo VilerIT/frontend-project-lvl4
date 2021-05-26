@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useState, useEffect } from 'react';
-import { Row, Spinner } from 'react-bootstrap';
+import { Row, Col, Spinner } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 
 import routes from '../routes.js';
@@ -27,6 +28,7 @@ const Chat = () => {
   const auth = useAuth();
   const dispatch = useDispatch();
   const socket = useSocket();
+  const { t } = useTranslation();
 
   const [contentLoaded, setContentLoaded] = useState(false);
 
@@ -68,7 +70,14 @@ const Chat = () => {
       <Channels />
       <Messages />
     </Row>
-  ) : <Spinner animation="grow" variant="primary" />;
+  ) : (
+    <Row className="align-items-center h-100">
+      <Col className="text-center">
+        <Spinner animation="grow" variant="primary" />
+        <p>{t('texts.pleasewait')}</p>
+      </Col>
+    </Row>
+  );
 };
 
 export default Chat;
