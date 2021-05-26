@@ -10,7 +10,10 @@ import _ from 'lodash';
 
 import { useAuth } from '../hooks/index.js';
 
-const languages = ['en', 'ru'];
+const languages = {
+  en: 'English',
+  ru: 'Русский',
+};
 
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
@@ -22,19 +25,20 @@ const LanguageSwitcher = () => {
 
   const renderLanguages = () => (
     <>
-      {languages.map((lang) => (
+      {Object.entries(languages).map(([lang, name]) => (
         <NavDropdown.Item
           key={_.uniqueId()}
+          active={lang === i18n.language}
           onClick={handleSwitchLanguage(lang)}
         >
-          {lang}
+          {name}
         </NavDropdown.Item>
       ))}
     </>
   );
 
   return (
-    <NavDropdown title={i18n.language}>
+    <NavDropdown title={languages[i18n.language]}>
       {renderLanguages()}
     </NavDropdown>
   );
