@@ -134,7 +134,7 @@ const SignUp = () => {
           disabled={formik.isSubmitting}
         >
           {formik.isSubmitting
-            && <Spinner className="mr-2" animation="border" size="sm" />}
+            && <Spinner className="mr-1" animation="border" size="sm" />}
           {t('buttons.signUp')}
         </Button>
       </Form>
