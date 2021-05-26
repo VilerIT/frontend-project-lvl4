@@ -42,16 +42,12 @@ const SignUp = () => {
 
         history.push('/');
       } catch (e) {
-        if (e.isAxiosError) {
-          if (e.response && e.response.status === 409) {
-            setSignUpError('userExists');
-            usernameRef.current.select();
-          } else if (e.message === 'Network Error') {
-            setSignUpError('netError');
-          }
-        }
-
-        if (signUpError) {
+        if (e.isAxiosError && e.response && e.response.status === 409) {
+          setSignUpError('userExists');
+          usernameRef.current.select();
+        } else if (e.isAxiosError && e.message === 'Network Error') {
+          setSignUpError('netError');
+        } else {
           setSignUpError('unknown');
           console.error(e);
         }

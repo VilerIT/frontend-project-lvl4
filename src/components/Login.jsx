@@ -48,16 +48,12 @@ const Login = () => {
 
       history.push('/');
     } catch (e) {
-      if (e.isAxiosError) {
-        if (e.response && e.response.status === 401) {
-          setError('authFailed');
-          usernameRef.current.select();
-        } else if (e.message === 'Network Error') {
-          setError('netError');
-        }
-      }
-
-      if (error) {
+      if (e.isAxiosError && e.response && e.response.status === 401) {
+        setError('authFailed');
+        usernameRef.current.select();
+      } else if (e.isAxiosError && e.message === 'Network Error') {
+        setError('netError');
+      } else {
         setError('unknown');
         console.error(e);
       }
