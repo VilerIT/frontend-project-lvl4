@@ -33,7 +33,6 @@ const Chat = () => {
   const [contentLoaded, setContentLoaded] = useState(false);
 
   useEffect(() => {
-    // eslint-disable-next-line functional/no-let
     let mounted = true;
 
     const fetchData = async () => {
